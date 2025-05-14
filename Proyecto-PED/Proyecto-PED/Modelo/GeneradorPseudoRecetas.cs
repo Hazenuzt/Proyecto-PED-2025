@@ -74,7 +74,7 @@ namespace Proyecto_PED.Modelo
                 {
                     if (dp[j - caloriasPorPorcion] != null)
                     {
-                        // Si podemos alcanzar j - caloriasPorPorcion, entonces podemos alcanzar j añadiendo este alimento
+                        // Si podemos alcanzar j - caloriasPorPorcion, entonces podemos alcanzar j añadiendo este alimentox
                         if (dp[j] == null)
                         {
                             dp[j] = new List<int>(dp[j - caloriasPorPorcion]);
