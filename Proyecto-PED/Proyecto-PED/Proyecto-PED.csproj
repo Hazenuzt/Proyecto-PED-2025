@@ -47,7 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controlador\Controlador.cs" />
+    <Compile Include="Modelo\ArbolDecision.cs" />
     <Compile Include="Modelo\ConexionBD.cs" />
+    <Compile Include="Modelo\NodoArbol.cs" />
+    <Compile Include="Modelo\Usuario.cs" />
     <Compile Include="Modelo\ValidacionUsuario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
