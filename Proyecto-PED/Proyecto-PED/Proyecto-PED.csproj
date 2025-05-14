@@ -65,7 +65,7 @@
     <Compile Include="Modelo\ConexionBD.cs" />
     <Compile Include="Modelo\Alimento.cs" />
     <Compile Include="Modelo\GeneradorPseudoRecetas.cs" />
-    <Compile Include="Modelo\GestordeAlimentos.cs" />
+    <Compile Include="Modelo\GestorDeAlimentos.cs" />
     <Compile Include="Modelo\ValidacionUsuario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

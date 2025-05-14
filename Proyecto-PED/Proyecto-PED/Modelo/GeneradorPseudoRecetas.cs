@@ -27,10 +27,7 @@ namespace Proyecto_PED.Modelo
             double caloriasObjetivoComida = CalcularCaloriasPorMomento(momentoDia);
             Console.WriteLine($"\nGeneradorPseudorecetas: Generando pseudoreceta para {momentoDia} con {caloriasObjetivoComida:F0} calorías (usando Programación Dinámica).");
 
-            // Obtener la lista de alimentos candidatos para este momento del día
             List<Alimento> alimentosCandidatos = ObtenerAlimentosCandidatosPorMomento(momentoDia);
-
-            // Llamar al método de programación dinámica
             List<int> pseudoreceta = EncontrarCombinacionPD(alimentosCandidatos, (int)Math.Round(caloriasObjetivoComida));
 
             return pseudoreceta;
@@ -55,72 +52,50 @@ namespace Proyecto_PED.Modelo
 
         private List<Alimento> ObtenerAlimentosCandidatosPorMomento(string momentoDia)
         {
-            // Esto es una lógica básica, necesitarás refinarla según tus tipos de alimentos
-            switch (momentoDia.ToLower())
-            {
-                case "desayuno":
-                    return _gestorDeAlimentos.ObtenerAlimentosPorTipo("Cereal")
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Lácteo"))
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Fruta"))
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Huevo"))
-                           .Where(a => a.TamañoPorcionEstandarGramos.HasValue && a.TamañoPorcionEstandarGramos > 0) // Solo considerar alimentos con porción estándar definida
-                           .ToList();
-                case "almuerzo":
-                    return _gestorDeAlimentos.ObtenerAlimentosPorTipo("Carne")
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Verdura"))
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Legumbre"))
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Cereal"))
-                           .Where(a => a.TamañoPorcionEstandarGramos.HasValue && a.TamañoPorcionEstandarGramos > 0)
-                           .ToList();
-                case "cena":
-                    return _gestorDeAlimentos.ObtenerAlimentosPorTipo("Carne")
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Verdura"))
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Pescado"))
-                           .Where(a => a.TamañoPorcionEstandarGramos.HasValue && a.TamañoPorcionEstandarGramos > 0)
-                           .ToList();
-                case "snack":
-                    return _gestorDeAlimentos.ObtenerAlimentosPorTipo("Fruta")
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Lácteo"))
-                           .Concat(_gestorDeAlimentos.ObtenerAlimentosPorTipo("Nuez"))
-                           .Where(a => a.TamañoPorcionEstandarGramos.HasValue && a.TamañoPorcionEstandarGramos > 0)
-                           .ToList();
-                default:
-                    return new List<Alimento>();
-            }
+            return _gestorDeAlimentos.ObtenerTodosLosAlimentos()
+                .Where(a => a.EsApropiadoPara(momentoDia))
+                .Where(a => a.CaloriasPorPorcion > 0) // Asegurarse de que el alimento aporte calorías
+                .ToList();
         }
 
         private List<int> EncontrarCombinacionPD(List<Alimento> alimentos, int caloriasObjetivo)
         {
-            // dp[i] será una lista de listas de IDs de alimentos que suman i calorías
+            // dp[i] será la lista de IDs de alimentos que suman exactamente i calorías
             List<List<int>> dp = new List<List<int>>(new List<int>[caloriasObjetivo + 1]);
-            dp[0] = new List<int>(); // 0 calorías se pueden lograr con una lista vacía
+            dp[0] = new List<int>(); // 0 calorías se logran con una lista vacía
 
             for (int i = 0; i < alimentos.Count; i++)
             {
                 Alimento alimento = alimentos[i];
-                if (alimento.TamañoPorcionEstandarGramos.HasValue && alimento.TamañoPorcionEstandarGramos > 0)
-                {
-                    int caloriasPorPorcion = (int)Math.Round((alimento.CaloriasPor100g / 100) * alimento.TamañoPorcionEstandarGramos.Value);
+                int caloriasPorPorcion = (int)Math.Round(alimento.CaloriasPorPorcion);
 
-                    // Iterar desde caloriasPorPorcion hasta caloriasObjetivo
-                    for (int j = caloriasPorPorcion; j <= caloriasObjetivo; j++)
+                // Iterar desde la capacidad de la porción del alimento hasta el objetivo
+                for (int j = caloriasPorPorcion; j <= caloriasObjetivo; j++)
+                {
+                    if (dp[j - caloriasPorPorcion] != null)
                     {
-                        if (dp[j - caloriasPorPorcion] != null)
+                        // Si podemos alcanzar j - caloriasPorPorcion, entonces podemos alcanzar j añadiendo este alimento
+                        if (dp[j] == null)
                         {
-                            // Si podemos alcanzar j - caloriasPorPorcion, entonces podemos alcanzar j añadiendo este alimento
-                            if (dp[j] == null)
-                            {
-                                dp[j] = new List<int>(dp[j - caloriasPorPorcion]);
-                                dp[j].Add(alimento.ID_Alimento);
-                            }
-                            // Opcional: Considerar múltiples porciones (añadir otra vez el mismo alimento)
-                            // if (permitirMultiplesPorciones && dp[j] != null) { ... }
+                            dp[j] = new List<int>(dp[j - caloriasPorPorcion]);
+                            dp[j].Add(alimento.ID_Alimento);
                         }
+                        // Opcional: Permitir múltiples porciones del mismo alimento
+                        // else
+                        // {
+                        //     List<int> nuevaCombinacion = new List<int>(dp[j - caloriasPorPorcion]);
+                        //     nuevaCombinacion.Add(alimento.ID_Alimento);
+                        //     // Podemos decidir si queremos almacenar todas las combinaciones o solo una
+                        //     if (dp[j].Count > nuevaCombinacion.Count) // Ejemplo de optimización por número de ingredientes
+                        //     {
+                        //         dp[j] = nuevaCombinacion;
+                        //     }
+                        // }
                     }
                 }
             }
 
-            // Después de iterar por todos los alimentos, dp[caloriasObjetivo] contendrá una combinación (si existe)
+            // Después de iterar, dp[caloriasObjetivo] contendrá una combinación (si existe)
             return dp[caloriasObjetivo];
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto_PED.Modelo
 {
-    internal class GestordeAlimentos
+    internal class GestorDeAlimentos
     {
         private Dictionary<int, Alimento> _cacheAlimentosPorID;
         private AlimentoRepositorio _alimentoRepositorio;
