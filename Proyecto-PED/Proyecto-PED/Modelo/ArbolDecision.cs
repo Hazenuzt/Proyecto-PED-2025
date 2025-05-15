@@ -72,9 +72,9 @@ namespace Proyecto_PED.Modelo
 
 
         //método que ejecuta el arbol de decisión para obtener un resultado
-        public NodoHoja EvaluarUsuario(Usuario nuevoUsuario)
+        public (double tmb, double tdee) EvaluarUsuario(Usuario nuevoUsuario)
         {
-            return (NodoHoja)raiz.Evaluar(nuevoUsuario);
+            return ((double, double))raiz.Evaluar(nuevoUsuario);
         }
     }
 }

@@ -109,11 +109,11 @@ namespace Proyecto_PED.Modelo
         {
             if (usuario.Genero == Genero.Masculino)
             {
-                return (88.36 + (13.4 * usuario.Peso) + (4.8 * usuario.Estatura) - (5.7 * usuario.Edad));
+                return 88.36 + (13.4 * usuario.Peso) + (4.8 * usuario.Estatura) - (5.7 * usuario.Edad);
             }
             else if (usuario.Genero == Genero.Femenino)
             {
-                return (447.6 + (9.2 * usuario.Peso) + (3.1 * usuario.Estatura) - (4.3 * usuario.Edad));
+                return 447.6 + (9.2 * usuario.Peso) + (3.1 * usuario.Estatura) - (4.3 * usuario.Edad);
             }
             else
             {

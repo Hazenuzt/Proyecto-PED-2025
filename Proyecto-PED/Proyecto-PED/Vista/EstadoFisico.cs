@@ -13,11 +13,9 @@ namespace Proyecto_PED.Vista
 {
     public partial class EstadoFisico : Form
     {
-        Usuario datosUsuario;
         public EstadoFisico()
         {
             InitializeComponent();
-            datosUsuario = new Usuario();
         }
 
         private void btnSiguiente_Click(object sender, EventArgs e)
@@ -38,19 +36,19 @@ namespace Proyecto_PED.Vista
                 if (groupBox_Estado.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Estado);
-                    if (checkBoxDelgado.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Delgado;
-                    else if (checkBoxNormal.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Normal;
-                    else if (checkBoxSobrePeso.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Sobrepeso;
-                    else if (checkBoxObesidad.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Obeso;
+                    if (checkBoxDelgado.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Delgado;
+                    else if (checkBoxNormal.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Normal;
+                    else if (checkBoxSobrePeso.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Sobrepeso;
+                    else if (checkBoxObesidad.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Obeso;
                 }
                 else if (groupBox_Actividad.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Actividad);
-                    if (checkBoxSedentario.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Sedentario;
-                    else if (checkBoxLigera.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Actividad_ligera;
-                    else if (checkBoxModerada.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Moderada;
-                    else if (checkBoxIntensa.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Intensa;
-                    else if (checkBoxMuyIntensa.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Muy_intensa;
+                    if (checkBoxSedentario.Checked) DatosGlobales.usua.Nivel_Actividad = NivelActividad.Sedentario;
+                    else if (checkBoxLigera.Checked) DatosGlobales.usua.Nivel_Actividad = NivelActividad.Actividad_ligera;
+                    else if (checkBoxModerada.Checked) DatosGlobales.usua.Nivel_Actividad = NivelActividad.Moderada;
+                    else if (checkBoxIntensa.Checked) DatosGlobales.usua.Nivel_Actividad = NivelActividad.Intensa;
+                    else if (checkBoxMuyIntensa.Checked) DatosGlobales.usua.Nivel_Actividad = NivelActividad.Muy_intensa;
                 }
             }catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proyecto_PED.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,9 +24,13 @@ namespace Proyecto_PED.Vista
             this.Hide();
             formResultado.Show();
         }
-
         private void btn_Siguiente_Click(object sender, EventArgs e)
         {
+            ArbolDecision arbolito = new ArbolDecision();
+            DatosGlobales.usua.CaloriasAsignadas(arbolito);
+
+            MessageBox.Show(DatosGlobales.usua.Debug());
+
             MessageBox.Show("Usuario Registrado Correctamente!\nVolviendo al inicio...");
             Login formInicio = new Login();
             this.Hide();

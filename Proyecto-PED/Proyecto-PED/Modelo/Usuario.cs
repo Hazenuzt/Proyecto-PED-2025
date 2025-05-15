@@ -18,6 +18,8 @@ namespace Proyecto_PED.Modelo
         private double peso;
         private string username;
         private string password;
+        public double tmb1;
+        public double tdee1;
 
         //propiedades 
         public int Id_Usuario
@@ -61,19 +63,34 @@ namespace Proyecto_PED.Modelo
         public Objetivo Objetivo { get; set; }
         public EstadoFisico EstadoFisico { get; set; }
 
+        //constructor
+        public Usuario()
+        {
+
+        }
+
+        //constructor con datos para Usuario
+        public Usuario(double peso, double estatura, int edad)
+        {
+            Peso = peso;
+            Edad = edad;
+            Estatura = estatura;
+        }
 
         //método que obtiene los resultados obtenidos por el árbol para su posterior evaluación
-        public double tmb1;
-        public double tdee1;
-
         public void CaloriasAsignadas(ArbolDecision arbol)
         {
-            var nodoHoja = arbol.EvaluarUsuario(this);
-            var resultado = ((double tmb, double tdee))nodoHoja.Evaluar(this);
-            tmb1 = resultado.tmb;
-            tdee1 = resultado.tdee;
+            var (tmb, tdee) = arbol.EvaluarUsuario(this);
+            tmb1 = tmb;
+            tdee1 = tdee;
 
-            MessageBox.Show("Los datos obtenidos son: tdee" + tdee1 + " tmb:" + tmb1);
+            MessageBox.Show($"Los datos obtenidos son: \ntdee {tdee1:F2}, \ntmb {tmb1:F2}");
+        }
+
+        public string Debug()
+        {
+            return $"Género: {Genero}, Actividad: {Nivel_Actividad}, Objetivo: {Objetivo}\n" +
+           $"Peso: {Peso}, Estatura: {Estatura}, Edad: {Edad}";
         }
 
     } 
@@ -105,5 +122,11 @@ namespace Proyecto_PED.Modelo
         Normal,
         Sobrepeso,
         Obeso
+    }
+
+    //clase estática para mantener los datos del usuario entre formularios
+    public static class DatosGlobales
+    {
+        public static Usuario usua {  get; set; } = new Usuario();
     }
 }

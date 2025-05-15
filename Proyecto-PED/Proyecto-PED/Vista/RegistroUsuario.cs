@@ -14,11 +14,9 @@ namespace Proyecto_PED.Vista
 {
 	public partial class RegistroUsuario : Form
 	{
-        Usuario datosUsuario;
 		public RegistroUsuario()
 		{
 			InitializeComponent();
-            datosUsuario = new Usuario();
 		}
 
 
@@ -50,11 +48,11 @@ namespace Proyecto_PED.Vista
             }
 
             //ingreso de datos a la clase
-            datosUsuario.Nombre = txtNombre.Text;
-            datosUsuario.Apellido = txtApellido.Text;
-            datosUsuario.Edad = int.Parse(txtEdad.Text);
-            datosUsuario.Estatura = double.Parse(txtEstatura.Text);
-            datosUsuario.Peso = double.Parse(txtPeso.Text);
+            DatosGlobales.usua.Nombre = txtNombre.Text;
+            DatosGlobales.usua.Apellido = txtApellido.Text;
+            DatosGlobales.usua.Edad = int.Parse(txtEdad.Text);
+            DatosGlobales.usua.Estatura = double.Parse(txtEstatura.Text);
+            DatosGlobales.usua.Peso = double.Parse(txtPeso.Text);
 
             EstadoFisico formEstadoActual = new EstadoFisico();
 			this.Hide();
@@ -99,7 +97,7 @@ namespace Proyecto_PED.Vista
             if (checkBox_F.Checked)
             {
                 checkBox_M.Checked = false;
-                datosUsuario.Genero = Genero.Femenino;
+                DatosGlobales.usua.Genero = Genero.Femenino;
             }
         }
 
@@ -109,7 +107,7 @@ namespace Proyecto_PED.Vista
             if (checkBox_M.Checked)
             {
                 checkBox_F.Checked = false;
-                datosUsuario.Genero = Genero.Masculino;
+                DatosGlobales.usua.Genero = Genero.Masculino;
             }
         }
 
