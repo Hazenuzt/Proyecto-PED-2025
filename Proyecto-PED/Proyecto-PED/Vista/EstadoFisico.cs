@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proyecto_PED.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,16 +13,19 @@ namespace Proyecto_PED.Vista
 {
     public partial class EstadoFisico : Form
     {
+        Usuario datosUsuario;
         public EstadoFisico()
         {
             InitializeComponent();
+            datosUsuario = new Usuario();
         }
 
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
             ObjetivoCumplir formObjetivos = new ObjetivoCumplir();
             this.Hide();
-            formObjetivos.Show();        }
+            formObjetivos.Show();        
+        }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -34,10 +38,19 @@ namespace Proyecto_PED.Vista
                 if (groupBox_Estado.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Estado);
+                    if (checkBoxDelgado.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Delgado;
+                    else if (checkBoxNormal.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Normal;
+                    else if (checkBoxSobrePeso.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Sobrepeso;
+                    else if (checkBoxObesidad.Checked) datosUsuario.EstadoFisico = Modelo.EstadoFisico.Obeso;
                 }
                 else if (groupBox_Actividad.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Actividad);
+                    if (checkBoxSedentario.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Sedentario;
+                    else if (checkBoxLigera.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Actividad_ligera;
+                    else if (checkBoxModerada.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Moderada;
+                    else if (checkBoxIntensa.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Intensa;
+                    else if (checkBoxMuyIntensa.Checked) datosUsuario.Nivel_Actividad = NivelActividad.Muy_intensa;
                 }
             }catch (Exception ex)
             {
@@ -69,17 +82,17 @@ namespace Proyecto_PED.Vista
         private void Form4_Load(object sender, EventArgs e)
         {
             // Asignar el evento CheckedChanged a cada CheckBox del grupo 1
-            checkBox1.CheckedChanged += CheckBox_CheckedChanged;
-            checkBox2.CheckedChanged += CheckBox_CheckedChanged;
-            checkBox3.CheckedChanged += CheckBox_CheckedChanged;
-            checkBox4.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxDelgado.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxNormal.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxSobrePeso.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxObesidad.CheckedChanged += CheckBox_CheckedChanged;
 
             // Asignar el evento CheckedChanged a cada CheckBox del grupo 2
-            checkBox5.CheckedChanged += CheckBox_CheckedChanged;
-            checkBox6.CheckedChanged += CheckBox_CheckedChanged;
-            checkBox7.CheckedChanged += CheckBox_CheckedChanged;
-            checkBox8.CheckedChanged += CheckBox_CheckedChanged;
-            checkBox9.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxIntensa.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxModerada.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxLigera.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxSedentario.CheckedChanged += CheckBox_CheckedChanged;
+            checkBoxMuyIntensa.CheckedChanged += CheckBox_CheckedChanged;
         }
 
         private void btnAtras_Click(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proyecto_PED.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,11 @@ namespace Proyecto_PED.Vista
 {
     public partial class ObjetivoCumplir : Form
     {
+        Usuario datosUsuario;
         public ObjetivoCumplir()
         {
             InitializeComponent();
+            datosUsuario = new Usuario();
         }
 
         private void btnSiguiente_Click(object sender, EventArgs e)
@@ -35,6 +38,10 @@ namespace Proyecto_PED.Vista
                 if (groupBox_Objetivo.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Objetivo);
+                    if (checkBoxPerdida.Checked) datosUsuario.Objetivo = Objetivo.Perder_grasa;
+                    else if (checkBoxMantener.Checked) datosUsuario.Objetivo = Objetivo.Mantener_peso;
+                    else if (checkBoxGanar.Checked) datosUsuario.Objetivo = Objetivo.Ganar_musculo;
+                    else if (checkBoxDefinir.Checked) datosUsuario.Objetivo = Objetivo.Definicion_muscular;
                 }
             } catch (Exception ex)
             {

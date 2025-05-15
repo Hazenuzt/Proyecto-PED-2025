@@ -9,7 +9,8 @@ namespace Proyecto_PED.Modelo
     //clase padre para definir los nodos de decisión
     public abstract class NodoArbol
     {
-        public abstract string Evaluar(Usuario usuario);
+        public abstract object Evaluar(Usuario usuario); 
+        //se definirá tipo object para poder devolver datos tipo string o double de ser necesario
     }
 
     //clase hija para definir nodo decisión Género
@@ -26,7 +27,7 @@ namespace Proyecto_PED.Modelo
         }
 
         //método heredado
-        public override string Evaluar(Usuario usuario)
+        public override object Evaluar(Usuario usuario)
         {
             //estructura if-else para saber si el dato ingresado por el usuario pertenece o se 
             //identifica como una llave de la tabla Hash que definimos anteriormente como atributo 
@@ -53,7 +54,7 @@ namespace Proyecto_PED.Modelo
         }
 
         //metodo heredado
-        public override string Evaluar(Usuario usuario)
+        public override object Evaluar(Usuario usuario)
         {
             if (ramita.TryGetValue(usuario.Nivel_Actividad, out NodoArbol siguienteNodo))
             {
@@ -77,7 +78,7 @@ namespace Proyecto_PED.Modelo
         }
 
         //metodo heredado
-        public override string Evaluar(Usuario usuario)
+        public override object Evaluar(Usuario usuario)
         {
             if (ramita.TryGetValue(usuario.Objetivo, out NodoArbol siguienteNodo))
             {
@@ -95,9 +96,48 @@ namespace Proyecto_PED.Modelo
     public class NodoHoja : NodoArbol
     {
         //metodo heredado
-        public override string Evaluar(Usuario usuario)
+        public override object Evaluar(Usuario usuario)
         {
-            throw new NotImplementedException();//configurar
+            double tmb = ObtenerTMB(usuario);
+            double tdee = ObtenerTDEE(usuario, tmb);
+
+            return (tmb, tdee); //retorna los valores como tupla
+        }
+
+        //métodos para TMB y TDEE que se utilizarán para el nodo hoja según recorrido
+        private double ObtenerTMB (Usuario usuario)
+        {
+            if (usuario.Genero == Genero.Masculino)
+            {
+                return (88.36 + (13.4 * usuario.Peso) + (4.8 * usuario.Estatura) - (5.7 * usuario.Edad));
+            }
+            else if (usuario.Genero == Genero.Femenino)
+            {
+                return (447.6 + (9.2 * usuario.Peso) + (3.1 * usuario.Estatura) - (4.3 * usuario.Edad));
+            }
+            else
+            {
+                throw new ArgumentException("El valor ingresado no corresponde a los valores asignados");
+            }
+        }
+
+        private double ObtenerTDEE(Usuario usuario, double tmb)
+        {
+            switch (usuario.Nivel_Actividad)
+            {
+                case NivelActividad.Sedentario:
+                    return tmb * 1.2;
+                case NivelActividad.Actividad_ligera:
+                    return tmb * 1.375;
+                case NivelActividad.Moderada:
+                    return tmb * 1.55;
+                case NivelActividad.Intensa:
+                    return tmb * 1.725;
+                case NivelActividad.Muy_intensa:
+                    return tmb * 1.9;
+                default:
+                    throw new ArgumentException("El valor ingresado no corresponde a los valores asignados");
+            }
         }
 
     }
