@@ -45,7 +45,6 @@ namespace Proyecto_PED.Modelo
             MomentosDiaApropiados = momentosDiaApropiados ?? new List<string>();
         }
 
-        //Aquí debem ir todas la validaciones necesarias
 
 
         //Metodo para verificar si es el alimento es adecuado para x tiempo de comida
