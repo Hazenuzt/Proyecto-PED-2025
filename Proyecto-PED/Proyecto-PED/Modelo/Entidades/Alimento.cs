@@ -18,20 +18,20 @@ namespace Proyecto_PED.Modelo
         public double GrasasPorPorcion { get; set; }
 
         public string UnidadMedidaBase { get; set; } // "g", "ml", "unidad", etc.
-        public double? TamañoPorcionEstandarGramos { get; set; } // Para alimentos con porción estándar en gramos (nulleable si no aplica)
+        public double? TamañoPorcionEstandarGramos { get; set; } // Nulleable si no aplica
         public string TipoAlimento { get; set; } // "Verdura", "Fruta", "Lácteo", etc.
 
-        // Tags para indicar en qué momentos del día es apropiado el alimento
+        //Tag para indicar en qué momentos del día es apropiado el alimento
         public List<string> MomentosDiaApropiados { get; set; }
+        //Tag para indicar que rol principal tiene el alimento
+        public string RolAlimento { get; set; } // "Base", "Proteina", "Vegetales", "GrasasYExtras"
 
-        // Constructor por defecto
         public Alimento()
         {
             MomentosDiaApropiados = new List<string>();
         }
 
-        // Constructor con parámetros para facilitar la creación de instancias
-        public Alimento(int id, string nombre, double caloriasPorPorcion, double proteinasPorPorcion, double carbohidratosPorPorcion, double grasasPorPorcion, string unidadMedidaBase, double? tamañoPorcionEstandarGramos = null, string tipoAlimento = null, List<string> momentosDiaApropiados = null)
+        public Alimento(int id, string nombre, double caloriasPorPorcion, double proteinasPorPorcion, double carbohidratosPorPorcion, double grasasPorPorcion, string unidadMedidaBase, double? tamañoPorcionEstandarGramos = null, string tipoAlimento = null, List<string> momentosDiaApropiados = null, string rolAlimento = null)
         {
             ID_Alimento = id;
             NombreAlimento = nombre;
@@ -43,11 +43,9 @@ namespace Proyecto_PED.Modelo
             TamañoPorcionEstandarGramos = tamañoPorcionEstandarGramos;
             TipoAlimento = tipoAlimento;
             MomentosDiaApropiados = momentosDiaApropiados ?? new List<string>();
+            RolAlimento = rolAlimento;
         }
 
-
-
-        //Metodo para verificar si es el alimento es adecuado para x tiempo de comida
         public bool EsApropiadoPara(string momentoDia)
         {
             return MomentosDiaApropiados.Contains(momentoDia.ToLower());

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Proyecto_PED.Modelo.LogicaNegocio;
 
 namespace Proyecto_PED.Modelo
 {
@@ -20,7 +21,7 @@ namespace Proyecto_PED.Modelo
 
         private void CargarAlimentosIniciales()
         {
-            Console.WriteLine("GestorDeAlimentos: Cargando alimentos desde la base de datos al modelo en memoria...");
+            Console.WriteLine("GestorDeAlimentos: Cargando alimentos desde el repositorio al modelo en memoria...");
             List<Alimento> todosLosAlimentos = _alimentoRepositorio.ObtenerTodosLosAlimentos();
             foreach (var alimento in todosLosAlimentos)
             {
@@ -39,12 +40,5 @@ namespace Proyecto_PED.Modelo
         {
             return _cacheAlimentosPorID.Values.ToList();
         }
-
-        // Nuevo método para obtener alimentos por tipo
-        public List<Alimento> ObtenerAlimentosPorTipo(string tipoAlimento)
-        {
-            return _cacheAlimentosPorID.Values.Where(a => a.TipoAlimento?.ToLower() == tipoAlimento?.ToLower()).ToList();
-        }
-
     }
 }
