@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proyecto_PED.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -35,6 +36,10 @@ namespace Proyecto_PED.Vista
                 if (groupBox_Objetivo.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Objetivo);
+                    if (checkBoxPerdida.Checked) DatosGlobales.usua.Objetivo = Objetivo.Perder_grasa;
+                    else if (checkBoxMantener.Checked) DatosGlobales.usua.Objetivo = Objetivo.Mantener_peso;
+                    else if (checkBoxGanar.Checked) DatosGlobales.usua.Objetivo = Objetivo.Ganar_musculo;
+                    else if (checkBoxDefinir.Checked) DatosGlobales.usua.Objetivo = Objetivo.Definicion_muscular;
                 }
             } catch (Exception ex)
             {

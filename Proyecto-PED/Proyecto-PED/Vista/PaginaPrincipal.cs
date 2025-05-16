@@ -14,8 +14,6 @@ using System.Data.Common;
 
 namespace Proyecto_PED.Vista
 {
-
-
     public partial class PaginaPrincipal : Form
     {
         private string usuarioActual;

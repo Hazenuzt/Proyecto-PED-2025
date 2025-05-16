@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Proyecto_PED.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -46,11 +47,16 @@ namespace Proyecto_PED.Vista
                 return;
             }
 
+            //ingreso de datos a la clase
+            DatosGlobales.usua.Nombre = txtNombre.Text;
+            DatosGlobales.usua.Apellido = txtApellido.Text;
+            DatosGlobales.usua.Edad = int.Parse(txtEdad.Text);
+            DatosGlobales.usua.Estatura = double.Parse(txtEstatura.Text);
+            DatosGlobales.usua.Peso = double.Parse(txtPeso.Text);
+
             EstadoFisico formEstadoActual = new EstadoFisico();
 			this.Hide();
 			formEstadoActual.Show();
-
-
 
 		}
 
@@ -61,6 +67,8 @@ namespace Proyecto_PED.Vista
                 e.Handled = true; // Cancela la entrada de la tecla
                 MessageBox.Show("¡Solo se permiten números!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+
         }
 
         private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
@@ -89,6 +97,7 @@ namespace Proyecto_PED.Vista
             if (checkBox_F.Checked)
             {
                 checkBox_M.Checked = false;
+                DatosGlobales.usua.Genero = Genero.Femenino;
             }
         }
 
@@ -98,7 +107,7 @@ namespace Proyecto_PED.Vista
             if (checkBox_M.Checked)
             {
                 checkBox_F.Checked = false;
-
+                DatosGlobales.usua.Genero = Genero.Masculino;
             }
         }
 
