@@ -29,7 +29,7 @@ namespace Clases_PlanEat
                 insertUsuario.Parameters.AddWithValue("@Genero", usuario.Genero);
                 insertUsuario.Parameters.AddWithValue("@Estatura", usuario.Estatura);
                 insertUsuario.Parameters.AddWithValue("@Peso", usuario.Peso);
-                insertUsuario.Parameters.AddWithValue("@Nivel_actividad", usuario.NivelActividad);
+                insertUsuario.Parameters.AddWithValue("@Nivel_Actividad", usuario.NivelActividad);
                 insertUsuario.Parameters.AddWithValue("@Objetivo", usuario.Objetivo);
                 insertUsuario.Parameters.AddWithValue("@Username", usuario.Username);
                 insertUsuario.Parameters.AddWithValue("@Contraseña", usuario.Contraseña);
