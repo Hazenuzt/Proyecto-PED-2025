@@ -26,10 +26,9 @@ namespace Proyecto_PED.Vista
         }
         private void btn_Siguiente_Click(object sender, EventArgs e)
         {
-            ArbolDecision arbolito = new ArbolDecision();
-            DatosGlobales.usua.CaloriasAsignadas(arbolito);
-
-            MessageBox.Show(DatosGlobales.usua.Debug());
+            ArbolDecision arbol = new ArbolDecision();
+            arbol.EvaluarUsuario(DatosGlobales.usua);
+            MessageBox.Show(DatosGlobales.usua.Debug()); //muestra lo guardado por el usuario
 
             MessageBox.Show("Usuario Registrado Correctamente!\nVolviendo al inicio...");
             Login formInicio = new Login();

@@ -100,8 +100,30 @@ namespace Proyecto_PED.Modelo
         {
             double tmb = ObtenerTMB(usuario);
             double tdee = ObtenerTDEE(usuario, tmb);
+            double cantcal = ObtenerCantCal(usuario, tdee);
 
-            return (tmb, tdee); //retorna los valores como tupla
+            usuario.CantCalorias = cantcal;
+
+            return usuario.CantCalorias; //retorna la cantidad de calorias que el usuario debe de consumir
+        }
+
+        //método para obtener la cantidad de calorias necesarias por usuario
+        private double ObtenerCantCal(Usuario usuario, double tdee)
+        {
+            Random rnd = new Random();
+            switch (usuario.Objetivo)
+            {
+                case Objetivo.Ganar_musculo:
+                    return tdee + rnd.Next(250, 501);
+                case Objetivo.Perder_grasa:
+                    return tdee - rnd.Next(250, 501);
+                case Objetivo.Mantener_peso:
+                    return tdee;
+                case Objetivo.Definicion_muscular:
+                    return tdee - rnd.Next(300, 401);
+                default:
+                    throw new ArgumentException("El valor ingresado no corresponde a los valores asignados");
+            }
         }
 
         //métodos para TMB y TDEE que se utilizarán para el nodo hoja según recorrido

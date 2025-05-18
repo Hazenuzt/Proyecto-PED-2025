@@ -20,8 +20,6 @@ namespace Proyecto_PED.Modelo
         private string username;
         private string password;
         private double cantCalorias;
-        public double tmb1;
-        public double tdee1;
 
         //propiedades 
         public int Id_Usuario
@@ -70,12 +68,8 @@ namespace Proyecto_PED.Modelo
         public NivelActividad Nivel_Actividad { get; set; }
         public Objetivo Objetivo { get; set; }
         public EstadoFisico EstadoFisico { get; set; }
-        
-
-
 
         //constructor
-
         public Usuario()
         {
 
@@ -94,45 +88,35 @@ namespace Proyecto_PED.Modelo
             Estatura = estatura;
         }
 
-        //método que obtiene los resultados obtenidos por el árbol para su posterior evaluación
-        public void CaloriasAsignadas(ArbolDecision arbol)
-        {
-            var (tmb, tdee) = arbol.EvaluarUsuario(this);
-            tmb1 = tmb;
-            tdee1 = tdee;
-
-            MessageBox.Show($"Los datos obtenidos son: \ntdee {tdee1:F2}, \ntmb {tmb1:F2}");
-        }
-
         public string Debug()
         {
             return $"Género: {Genero}, Actividad: {Nivel_Actividad}, Objetivo: {Objetivo}\n" +
-           $"Peso: {Peso}, Estatura: {Estatura}, Edad: {Edad}";
+           $"Peso: {Peso}, Estatura: {Estatura}, Edad: {Edad}, Cantidad de calorías: {CantCalorias}";
         }
 
-    } 
+    }
     //definimos a Género, Nivel de Actividad y Objetivo como un dato
     //tipo Enum para su procesamiento en el nodo de decisión
-        public enum Genero
-        {
-            Femenino,
-            Masculino
-        }
-        public enum NivelActividad
-        {
-            Sedentario, 
-            Actividad_ligera,
-            Moderada,
-            Intensa,
-            Muy_intensa
-        }
-        public enum Objetivo
-        {
-            Perder_grasa,
-            Mantener_peso,
-            Ganar_musculo,
-            Definicion_muscular
-        }
+    public enum Genero
+    {
+        Femenino,
+        Masculino
+    }
+    public enum NivelActividad
+    {
+        Sedentario,
+        Actividad_ligera,
+        Moderada,
+        Intensa,
+        Muy_intensa
+    }
+    public enum Objetivo
+    {
+        Perder_grasa,
+        Mantener_peso,
+        Ganar_musculo,
+        Definicion_muscular
+    }
     public enum EstadoFisico
     {
         Delgado,
