@@ -8,16 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Proyecto_PED.Controlador;
+using Proyecto_PED.Modelo;
 
 namespace Proyecto_PED.Vista
 {
 	public partial class Login : Form
 	{
 		private ControladorLogin login = new ControladorLogin();
-        PaginaPrincipal formInfoUsuario = new PaginaPrincipal();
+        
+        private UsuarioRepositorio _usuarioRepositorio;
+
         public Login()
 		{
 			InitializeComponent();
+			_usuarioRepositorio = new UsuarioRepositorio();	//Inicializando la instancia del repo,para usar sus metodos para recibir los users
 		}
 
 		private void btningresar_Click(object sender, EventArgs e)
@@ -30,9 +34,13 @@ namespace Proyecto_PED.Vista
 				if (login.InicioSesion(usuario, contra))
 				{
 					MessageBox.Show("Inicio de sesión exitoso");
+					Usuario usuarioValido = _usuarioRepositorio.ObtenerUsuarioPorNombreUsuario(usuario); //En realidad, aquí lo correcto sería llamarlo mediante su id, ya que pueden haber
+                                                                                                         //Más de un "juan".
+
+                    PaginaPrincipal mainForm = new PaginaPrincipal(usuarioValido);
+                    mainForm.Show();
+                    this.Hide();
 					
-					this.Hide();
-					formInfoUsuario.Show();
 					
 				}
 				
@@ -44,12 +52,12 @@ namespace Proyecto_PED.Vista
 				txtUsuario.Focus();
 			}
 
-            //del usuario al label
+            /*//del usuario al label
              usuario = txtUsuario.Text; // toma el nombre del TextBox
 
             PaginaPrincipal pagina = new PaginaPrincipal(usuario); // se lo pasa a Form2
             pagina.Show(); // abre la nueva ventana
-            this.Hide(); // oculta el login
+            this.Hide(); // oculta el login*/
 
         }
 

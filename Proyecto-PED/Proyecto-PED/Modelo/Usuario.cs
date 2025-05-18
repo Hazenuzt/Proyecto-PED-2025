@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,6 +19,7 @@ namespace Proyecto_PED.Modelo
         private double peso;
         private string username;
         private string password;
+        private double cantCalorias;
         public double tmb1;
         public double tdee1;
 
@@ -57,16 +59,31 @@ namespace Proyecto_PED.Modelo
             set { peso = value; }
         }
 
+        public double CantCalorias 
+        { 
+            get { return cantCalorias; }
+            set { cantCalorias = value; }
+        }
+
         //propiedades de datos tipo Enum
         public Genero Genero { get; set; }
         public NivelActividad Nivel_Actividad { get; set; }
         public Objetivo Objetivo { get; set; }
         public EstadoFisico EstadoFisico { get; set; }
+        
+
+
 
         //constructor
+
         public Usuario()
         {
 
+        }
+        public Usuario(string nom, double cantCalo)
+        {
+            Nombre = nom;
+            cantCalorias = cantCalo;
         }
 
         //constructor con datos para Usuario

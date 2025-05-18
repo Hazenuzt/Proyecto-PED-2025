@@ -20,9 +20,9 @@ namespace Proyecto_PED.Vista
 
         private void btn_Omitir_Click(object sender, EventArgs e)
         {
-            PlanesComida formResultado = new PlanesComida();
+            /*PlanesComida formResultado = new PlanesComida();
             this.Hide();
-            formResultado.Show();
+            formResultado.Show();*/
         }
         private void btn_Siguiente_Click(object sender, EventArgs e)
         {
