@@ -55,6 +55,8 @@ namespace Proyecto_PED.Vista
             dgvAlimentosSugeridos.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Alimento", DataPropertyName = "NombreAlimento", Name = "ColAlimento" });
             dgvAlimentosSugeridos.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Rol", DataPropertyName = "RolAlimento", Name = "ColRol" });
             dgvAlimentosSugeridos.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Calorías", DataPropertyName = "CaloriasPorPorcion", Name = "ColCalorias" });
+            dgvAlimentosSugeridos.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Unidad", DataPropertyName = "UnidadMedidaBase", Name = "ColUnidadMedida" });
+            dgvAlimentosSugeridos.Columns.Add(new DataGridViewTextBoxColumn() { HeaderText = "Porción (g/ml)", DataPropertyName = "TamañoPorcionEstandarGramos", Name = "ColTamanoPorcion" });
 
             // Ajustar el ancho de las columnas (opcional)
             dgvAlimentosSugeridos.Columns["ColAlimento"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -64,11 +66,24 @@ namespace Proyecto_PED.Vista
 
         private void GenerarYMostrarRecetas()
         {
-            // 1. Generar la pseudoreceta
-            List<Alimento> pseudoreceta = _generadorPseudorecetas.GenerarPseudorecetaPorMomento(_momentoDelDia);
-
+            List<Alimento> pseudoreceta = new List<Alimento>();
             string resumenTexto = "";
+            const int MAX_INTENTOS = 5; // Puedes ajustar este número
+            int intentos = 0;
 
+            // --- Bucle para intentar generar la pseudoreceta ---
+            // Repite hasta que la pseudoreceta no esté vacía O se alcancen el máximo de intentos
+            while (!pseudoreceta.Any() && intentos < MAX_INTENTOS)
+            {
+                intentos++;
+                // 1. Generar la pseudoreceta (este es el código que ya tenías para la generación)
+                pseudoreceta = _generadorPseudorecetas.GenerarPseudorecetaPorMomento(_momentoDelDia);
+
+            }
+            // --- Fin del bucle de generación ---
+
+
+            // --- Lógica para mostrar los resultados (lo que ya tenías, ahora dentro del if/else final) ---
             if (pseudoreceta.Any())
             {
                 double totalCaloriasPseudoreceta = pseudoreceta.Sum(a => a.CaloriasPorPorcion);
@@ -76,18 +91,19 @@ namespace Proyecto_PED.Vista
                 // 2. Mostrar la pseudoreceta en el DataGridView
                 dgvAlimentosSugeridos.DataSource = pseudoreceta;
 
-                resumenTexto += $"--- Lista de alimentos g0enerada para {_momentoDelDia.ToUpper()} ---\n";
+                resumenTexto += $"--- Lista de alimentos generada para {_momentoDelDia.ToUpper()} ---\n";
                 resumenTexto += $"Total de calorías de la sugerencia: {totalCaloriasPseudoreceta:F0} Cal\n\n";
+
 
                 // 3. Buscar recetas reales coincidentes
                 List<Receta> recetasCoincidentes = _gestorDeRecetas.EncontrarRecetasCoincidentes(pseudoreceta);
 
                 // 4. Mostrar resultados en el RichTextBox
-                if (recetasCoincidentes.Any())
+                if (recetasCoincidentes != null && recetasCoincidentes.Any())
                 {
                     Receta recetaSugerida = recetasCoincidentes.First(); // Tomamos la primera como la más relevante
                     resumenTexto += $"--- Receta Sugerida: {recetaSugerida.NombreReceta.ToUpper()} ---\n";
-                    resumenTexto += $"Calorías de la receta: {recetaSugerida.CaloriasTotales:F0} Kcal\n";
+                    resumenTexto += $"Calorías de la receta: {recetaSugerida.CaloriasTotales:F0} cal\n";
                     resumenTexto += $"Ingredientes de la receta:\n";
                     foreach (int idIngrediente in recetaSugerida.IDsIngredientes)
                     {
@@ -104,12 +120,12 @@ namespace Proyecto_PED.Vista
                     resumenTexto += "Pero puedes utilizar los ingredientes sugeridos como tu opción principal recomendada.\n";
                 }
             }
-            else
+            else // Este bloque se ejecuta si, después de todos los intentos, la pseudoreceta sigue vacía
             {
                 // No se pudo generar pseudoreceta
                 dgvAlimentosSugeridos.DataSource = null; // Limpia el DataGridView
-                resumenTexto += "No se pudo generar una lista de alimentosa adecuada para este momento del día con los criterios actuales.\n";
-                resumenTexto += "Por favor, ajusta las calorías diarias o verifica la disponibilidad de alimentos.";
+                resumenTexto += $"No se pudo generar una lista de alimentos adecuada para este momento del día con los criterios actuales después de {MAX_INTENTOS} intento(s).\n";
+                resumenTexto += "Por favor, ajusta las calorías diarias o verifica la disponibilidad de alimentos en la base de datos.";
             }
 
             rtbResumenReceta.Text = resumenTexto;

@@ -65,7 +65,13 @@
     <Compile Include="Modelo\ArbolDecision.cs" />
     <Compile Include="Modelo\ConexionBD.cs" />
     <Compile Include="Modelo\Entidades\Alimento.cs" />
+    <Compile Include="Modelo\Entidades\Alimento_No_Gustan.cs" />
+    <Compile Include="Modelo\Entidades\DBUsuario.cs" />
+    <Compile Include="Modelo\Entidades\Plan_Comidas.cs" />
+    <Compile Include="Modelo\Entidades\Plan_Receta.cs" />
+    <Compile Include="Modelo\Entidades\Preferencia_Usuario.cs" />
     <Compile Include="Modelo\Entidades\Receta.cs" />
+    <Compile Include="Modelo\Entidades\Receta_Ingrediente.cs" />
     <Compile Include="Modelo\LogicaNegocio\AlimentoRepositorio.cs" />
     <Compile Include="Modelo\LogicaNegocio\GeneradorDeRecetas.cs" />
     <Compile Include="Modelo\LogicaNegocio\GeneradorPseudoRecetas.cs" />
@@ -73,7 +79,7 @@
     <Compile Include="Modelo\LogicaNegocio\RecetaRepositorio.cs" />
     <Compile Include="Modelo\LogicaNegocio\TablaHash.cs" />
     <Compile Include="Modelo\NodoArbol.cs" />
-    <Compile Include="Modelo\Usuario.cs" />
+    <Compile Include="Modelo\Entidades\Usuario.cs" />
     <Compile Include="Modelo\UsuarioRepositorio.cs" />
     <Compile Include="Modelo\ValidacionUsuario.cs" />
     <Compile Include="Program.cs" />
