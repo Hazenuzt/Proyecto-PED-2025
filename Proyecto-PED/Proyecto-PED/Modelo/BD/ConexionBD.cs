@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proyecto_PED.Modelo
+namespace Proyecto_PED.Modelo.BD
 {
     public class ConexionBD
     {

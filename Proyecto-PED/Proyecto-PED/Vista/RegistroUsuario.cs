@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using Proyecto_PED.Modelo.BD;
+using Proyecto_PED.Modelo.Entidades;
 
 namespace Proyecto_PED.Vista
 {

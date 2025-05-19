@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Proyecto_PED.Modelo
+namespace Proyecto_PED.Modelo.Entidades
 {
     public class Usuario
     {

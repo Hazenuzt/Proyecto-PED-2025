@@ -12,6 +12,7 @@ using System.Data.SqlClient;
 using Proyecto_PED.Modelo;
 using System.Data.Common;
 using Proyecto_PED.Modelo.LogicaNegocio;
+using Proyecto_PED.Modelo.Entidades;
 
 namespace Proyecto_PED.Vista
 {
@@ -20,6 +21,7 @@ namespace Proyecto_PED.Vista
         private Usuario _usuarioActual;
         private GestorDeAlimentos _geestorDeAlimentos;
         private GestorDeRecetas _geestorDeRecetas;
+        private Usuario usuarioValido;
 
         public PaginaPrincipal(Usuario user)//con esto, recibimos desde el otro formulario los datos del usuario recien logueado
         {
@@ -36,6 +38,7 @@ namespace Proyecto_PED.Vista
             CargarDatosUsuario();
 
         }
+
 
         private void btnAtras_Click(object sender, EventArgs e)
         {

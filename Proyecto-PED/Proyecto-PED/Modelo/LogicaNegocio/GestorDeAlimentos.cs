@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.LogicaNegocio;
+using Proyecto_PED.Modelo.Entidades;
 
-namespace Proyecto_PED.Modelo
+namespace Proyecto_PED.Modelo.LogicaNegocio
 {
     internal class GestorDeAlimentos
     {

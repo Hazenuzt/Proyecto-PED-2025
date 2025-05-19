@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Proyecto_PED.Modelo.Entidades;
+using Proyecto_PED.Modelo.LogicaNegocio;
 
 namespace Proyecto_PED.Vista
 {

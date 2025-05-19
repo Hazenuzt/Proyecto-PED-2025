@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Proyecto_PED.Controlador;
 using Proyecto_PED.Modelo;
+using Proyecto_PED.Modelo.Entidades;
+using Proyecto_PED.Modelo.BD;
 
 namespace Proyecto_PED.Vista
 {
@@ -34,7 +36,7 @@ namespace Proyecto_PED.Vista
 				if (login.InicioSesion(usuario, contra))
 				{
 					MessageBox.Show("Inicio de sesión exitoso");
-					Usuario usuarioValido = _usuarioRepositorio.ObtenerUsuarioPorNombreUsuario(usuario); //En realidad, aquí lo correcto sería llamarlo mediante su id, ya que pueden haber
+					Modelo.Entidades.Usuario usuarioValido = _usuarioRepositorio.ObtenerUsuarioPorNombreUsuario(usuario); //En realidad, aquí lo correcto sería llamarlo mediante su id, ya que pueden haber
                                                                                                          //Más de un "juan".
 
                     PaginaPrincipal mainForm = new PaginaPrincipal(usuarioValido);

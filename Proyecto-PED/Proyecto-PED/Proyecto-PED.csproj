@@ -62,11 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controlador\Controlador.cs" />
-    <Compile Include="Modelo\ArbolDecision.cs" />
-    <Compile Include="Modelo\ConexionBD.cs" />
+    <Compile Include="Modelo\LogicaNegocio\ArbolDecision.cs" />
+    <Compile Include="Modelo\BD\ConexionBD.cs" />
     <Compile Include="Modelo\Entidades\Alimento.cs" />
     <Compile Include="Modelo\Entidades\Alimento_No_Gustan.cs" />
-    <Compile Include="Modelo\Entidades\DBUsuario.cs" />
+    <Compile Include="Modelo\BD\DBUsuario.cs" />
     <Compile Include="Modelo\Entidades\Plan_Comidas.cs" />
     <Compile Include="Modelo\Entidades\Plan_Receta.cs" />
     <Compile Include="Modelo\Entidades\Preferencia_Usuario.cs" />
@@ -78,10 +78,10 @@
     <Compile Include="Modelo\LogicaNegocio\GestorDeAlimentos.cs" />
     <Compile Include="Modelo\LogicaNegocio\RecetaRepositorio.cs" />
     <Compile Include="Modelo\LogicaNegocio\TablaHash.cs" />
-    <Compile Include="Modelo\NodoArbol.cs" />
+    <Compile Include="Modelo\LogicaNegocio\NodoArbol.cs" />
     <Compile Include="Modelo\Entidades\Usuario.cs" />
-    <Compile Include="Modelo\UsuarioRepositorio.cs" />
-    <Compile Include="Modelo\ValidacionUsuario.cs" />
+    <Compile Include="Modelo\BD\UsuarioRepositorio.cs" />
+    <Compile Include="Modelo\BD\ValidacionUsuario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vista\Login.cs">

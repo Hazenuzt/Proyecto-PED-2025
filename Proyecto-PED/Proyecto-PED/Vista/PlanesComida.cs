@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Proyecto_PED.Modelo.LogicaNegocio;
-using Proyecto_PED.Modelo;
+using Proyecto_PED.Modelo.Entidades;
 
 namespace Proyecto_PED.Vista
 {   
@@ -29,9 +29,7 @@ namespace Proyecto_PED.Vista
             RecetaRepositorio recetaRepo = new RecetaRepositorio();
 
             _gestorDeAlimentos = new GestorDeAlimentos(alimentoRepo);
-            _gestorDeRecetas = new GestorDeRecetas(recetaRepo); // Este constructor ya construye la TablaHash
-
-            
+            _gestorDeRecetas = new GestorDeRecetas(recetaRepo); // Este constructor ya construye la TablaHash  
         }
 
         

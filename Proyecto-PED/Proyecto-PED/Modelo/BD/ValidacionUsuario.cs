@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace Proyecto_PED.Modelo
+namespace Proyecto_PED.Modelo.BD
 {
     public class ValidacionUsuario
     {

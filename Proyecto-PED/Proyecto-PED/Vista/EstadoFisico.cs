@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Proyecto_PED.Modelo.Entidades;
 
 namespace Proyecto_PED.Vista
 {
@@ -36,10 +37,10 @@ namespace Proyecto_PED.Vista
                 if (groupBox_Estado.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Estado);
-                    if (checkBoxDelgado.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Delgado;
-                    else if (checkBoxNormal.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Normal;
-                    else if (checkBoxSobrePeso.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Sobrepeso;
-                    else if (checkBoxObesidad.Checked) DatosGlobales.usua.EstadoFisico = Modelo.EstadoFisico.Obeso;
+                    if (checkBoxDelgado.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Delgado;
+                    else if (checkBoxNormal.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Normal;
+                    else if (checkBoxSobrePeso.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Sobrepeso;
+                    else if (checkBoxObesidad.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Obeso;
                 }
                 else if (groupBox_Actividad.Controls.Contains(selectedCheckBox))
                 {
