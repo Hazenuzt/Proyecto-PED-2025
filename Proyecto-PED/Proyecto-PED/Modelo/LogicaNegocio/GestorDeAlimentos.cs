@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.LogicaNegocio;
 using Proyecto_PED.Modelo.Entidades;
+using Proyecto_PED.Modelo.BD;
 
 namespace Proyecto_PED.Modelo.LogicaNegocio
 {

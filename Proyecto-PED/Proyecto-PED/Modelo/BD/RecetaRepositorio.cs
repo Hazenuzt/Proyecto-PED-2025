@@ -6,15 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.Entidades;
 using System.Data.SqlClient;
-using Proyecto_PED.Modelo.BD;
 
-namespace Proyecto_PED.Modelo.LogicaNegocio
+namespace Proyecto_PED.Modelo.BD
 {
     internal class RecetaRepositorio
     {
         private List<Receta> _recetas;
-
-      
 
         // Guarda la lista de recetas en la base de datos
         // El parámetro rutaArchivo se mantiene por compatibilidad, pero no se usa

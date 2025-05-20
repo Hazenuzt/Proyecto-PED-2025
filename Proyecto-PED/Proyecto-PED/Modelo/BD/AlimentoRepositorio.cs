@@ -6,9 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.Entidades;
 using System.Data.SqlClient;
-using Proyecto_PED.Modelo.BD;
 
-namespace Proyecto_PED.Modelo.LogicaNegocio
+namespace Proyecto_PED.Modelo.BD
 {
     internal class AlimentoRepositorio
     {
@@ -88,14 +87,6 @@ namespace Proyecto_PED.Modelo.LogicaNegocio
 
             return alimentos;
         }
-
-
-
-
-
-
-
-
 
         public AlimentoRepositorio()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.Entidades;
+using Proyecto_PED.Modelo.BD;
 
 namespace Proyecto_PED.Modelo.LogicaNegocio
 {

@@ -9,11 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Proyecto_PED.Modelo.LogicaNegocio;
 using Proyecto_PED.Modelo.Entidades;
+using System.Drawing.Text;
+using System.Data.SqlClient;
+using Proyecto_PED.Modelo.BD;
 
 namespace Proyecto_PED.Vista
 {
     internal partial class VistaComida : Form
     {
+
         private string _momentoDelDia;
         private double _caloriasDiariasUsuario;
         private GestorDeAlimentos _gestorDeAlimentos;
@@ -21,7 +25,7 @@ namespace Proyecto_PED.Vista
         private GeneradorPseudorecetas _generadorPseudorecetas;
 
         // Constructor que recibe las dependencias y la información
-        public VistaComida(string momentoDelDia, double caloriasDiariasUsuario,GestorDeAlimentos gestorAlimentos, GestorDeRecetas gestorRecetas)
+        public VistaComida(string momentoDelDia, double caloriasDiariasUsuario, GestorDeAlimentos gestorAlimentos, GestorDeRecetas gestorRecetas)
         {
             InitializeComponent();
             _momentoDelDia = momentoDelDia;
@@ -34,13 +38,13 @@ namespace Proyecto_PED.Vista
             this.Text = $"Recomendación para {_momentoDelDia.ToUpper()}"; // Título de la ventana
                                                                           // Se pued usar un label para un título grande dentro del formulario
                                                                           // lblMomentoDiaTitulo.Text = $"Opciones de comida para el {_momentoDelDia.ToUpper()}";
-                                                                          
+
 
             // Configurar DataGridView
             ConfigurarDataGridView();
 
-            // Generar y mostrar las recetas al cargar el formulario
-            GenerarYMostrarRecetas();
+            // Genera recetas si es primera vez logeado, sino carga las recetas que generó en la vez anterior
+            CargarRecetasOGenerar();
         }
 
         private void ConfigurarDataGridView()
@@ -129,6 +133,57 @@ namespace Proyecto_PED.Vista
             }
 
             rtbResumenReceta.Text = resumenTexto;
+
+        }
+
+        private void CargarRecetasOGenerar()
+        {
+            int idUsuario = DatosGlobales.usua.Id_Usuario; //Id del usuario actual
+            DBComidas dbComidas = new DBComidas();
+            int? idPlan = null; //Nullable para almacenar el Id del plan de comidas
+            List<Receta> recetasguard = new List<Receta>(); // Lista para guardar las recetas obtenidas del usuario
+
+            using (var cn = new ConexionBD().ObtenerConexion())
+            {
+                cn.Open();
+                // Obtener el último plan del usuario 
+                SqlCommand selectUltimo = new SqlCommand("SELECT TOP 1 Id_Plan FROM Plan_Comidas WHERE Id_Usuario = @IdUsuario ORDER BY Fecha_Generacion DESC", cn);
+                selectUltimo.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                var planid = selectUltimo.ExecuteScalar(); //obtener el Id del último plan
+
+                if (planid != null) // Si  encontró un plan previo
+                {
+                    idPlan = Convert.ToInt32(planid);
+                    recetasguard = dbComidas.ObtenerRecetas(idPlan.Value); // Obtendrá recetas de ese plan
+                }
+            }
+
+            if (recetasguard != null && recetasguard.Any()) // Si hay recetas guardadas en la DB
+            {
+                Receta receta = recetasguard.First(); // Tomará la primera receta guardada
+
+                List<Alimento> ingredientes = new List<Alimento>();
+                string resumenTexto = $"--- Receta Sugerida: {receta.NombreReceta.ToUpper()} ---\n";
+                resumenTexto += $"Calorías de la receta: {receta.CaloriasTotales:F0} cal\n";
+                resumenTexto += "Ingredientes de la receta:\n";
+
+                foreach (int idIngrediente in receta.IDsIngredientes)
+                {
+                    Alimento ingrediente = _gestorDeAlimentos.ObtenerAlimentoPorID(idIngrediente);
+                    if (ingrediente != null)
+                    {
+                        ingredientes.Add(ingrediente);
+                        resumenTexto += $"  - {ingrediente.NombreAlimento}\n";
+                    }
+                }
+
+                dgvAlimentosSugeridos.DataSource = ingredientes;
+                rtbResumenReceta.Text = resumenTexto;
+            }
+            else // Si no hay recetas guardadas para el usuario, ahí sí generará y mostrar recetas nuevas
+            {
+                GenerarYMostrarRecetas();
+            }
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)

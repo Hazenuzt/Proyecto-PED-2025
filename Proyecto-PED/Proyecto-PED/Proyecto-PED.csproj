@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controlador\Controlador.cs" />
+    <Compile Include="Modelo\BD\DBComidas.cs" />
     <Compile Include="Modelo\LogicaNegocio\ArbolDecision.cs" />
     <Compile Include="Modelo\BD\ConexionBD.cs" />
     <Compile Include="Modelo\Entidades\Alimento.cs" />
@@ -72,11 +73,11 @@
     <Compile Include="Modelo\Entidades\Preferencia_Usuario.cs" />
     <Compile Include="Modelo\Entidades\Receta.cs" />
     <Compile Include="Modelo\Entidades\Receta_Ingrediente.cs" />
-    <Compile Include="Modelo\LogicaNegocio\AlimentoRepositorio.cs" />
+    <Compile Include="Modelo\BD\AlimentoRepositorio.cs" />
     <Compile Include="Modelo\LogicaNegocio\GeneradorDeRecetas.cs" />
     <Compile Include="Modelo\LogicaNegocio\GeneradorPseudoRecetas.cs" />
     <Compile Include="Modelo\LogicaNegocio\GestorDeAlimentos.cs" />
-    <Compile Include="Modelo\LogicaNegocio\RecetaRepositorio.cs" />
+    <Compile Include="Modelo\BD\RecetaRepositorio.cs" />
     <Compile Include="Modelo\LogicaNegocio\TablaHash.cs" />
     <Compile Include="Modelo\LogicaNegocio\NodoArbol.cs" />
     <Compile Include="Modelo\Entidades\Usuario.cs" />
