@@ -19,7 +19,7 @@ namespace Proyecto_PED.Vista
 		private ControladorLogin login = new ControladorLogin();
         
         private UsuarioRepositorio _usuarioRepositorio;
-
+		//l
         public Login()
 		{
 			InitializeComponent();
