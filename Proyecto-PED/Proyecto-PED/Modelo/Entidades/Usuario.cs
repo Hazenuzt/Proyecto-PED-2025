@@ -25,36 +25,78 @@ namespace Proyecto_PED.Modelo.Entidades
         public int Id_Usuario
         {
             get { return id_usuario; }
-            set { this.id_usuario = value; }
+            set
+            {
+                if (value <= 0) //El ID del usuario debe ser mayor a cero
+                {
+                    throw new Exception("El ID no es válido");
+                }
+                id_usuario = value;
+            }
         }
 
         public string Nombre
         {
             get { return nombre; }
-            set { nombre = value; }
+            set 
+            {
+                if (string.IsNullOrEmpty(value)) //El nombre del usuario no puede estar vacio
+                {
+                    throw new ArgumentNullException("El nombre no debe estar vacio");
+                }
+                nombre = value;
+            }
         }
 
         public string Apellido
         {
             get { return apellido; }
-            set { apellido = value; }
+            set 
+            {
+                if (string.IsNullOrEmpty(value)) //El apellido del usuario no puede estar vacio
+                {
+                    throw new ArgumentNullException("El apellido no debe estar vacio");
+                }
+                nombre = value;
+            }
         }
 
         public int Edad
         {
             get { return edad; }
-            set { edad = value; }
+            set 
+            {
+                if (value <= 0 || value > 110) //La edad del usuario no puede estar vacio
+                {
+                    throw new ArgumentOutOfRangeException("Edad fuera del rango válido");
+                }
+                edad = value;
+            }
         }
         public double Estatura
         {
             get { return estatura; }
-            set { estatura = value; }
+            set 
+            {
+                if (value <= 0) //El campo de la estatura del usuario no puede quedar vacia
+                {
+                    throw new ArgumentOutOfRangeException("La estatura no es válida");
+                }
+                estatura = value;
+            }
         }
 
         public double Peso
         {
             get { return peso; }
-            set { peso = value; }
+            set 
+            {
+                if (value <= 0) // El peso del usuario debe ser mayor a 0
+                {
+                    throw new ArgumentOutOfRangeException("El peso no es válido");
+                }
+                peso = value;
+            }
         }
 
         public double CantCalorias 
@@ -66,13 +108,27 @@ namespace Proyecto_PED.Modelo.Entidades
         public string Username
         {
             get { return username; }
-            set { username = value; }
+            set 
+            {
+                if (string.IsNullOrEmpty(value)) // El username no puede estar vacío
+                {
+                    throw new ArgumentNullException("El username no es válido");
+                }
+                username = value;
+            }
         }
 
         public string Password
         {
             get { return password; }
-            set { password = value; }
+            set 
+            {
+                if (value.Length < 6) //La contraseña será valida si tiene 6 o más caracteres
+                {
+                    throw new Exception("La contraseña debe tener al menos 6 caracteres");
+                }
+                password = value;
+            }
         }
 
         //propiedades de datos tipo Enum
@@ -90,14 +146,6 @@ namespace Proyecto_PED.Modelo.Entidades
         {
             Nombre = nom;
             cantCalorias = cantCalo;
-        }
-
-        //constructor con datos para Usuario
-        public Usuario(double peso, double estatura, int edad)
-        {
-            Peso = peso;
-            Edad = edad;
-            Estatura = estatura;
         }
 
         public string Debug()
