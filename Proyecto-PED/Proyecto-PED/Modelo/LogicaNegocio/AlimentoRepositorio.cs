@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,91 @@ namespace Proyecto_PED.Modelo.LogicaNegocio
     internal class AlimentoRepositorio
     {
         private List<Alimento> _alimentos;
+        private  string RutaArchivo = "alimentos.txt";
 
-        //Esta clase se tiene que cambiar, por la conexion a la DB que recupere todos los elementos de tipo "alimento" y los cargue en una lista.
+
+        //guardar
+        public void GuardarAlimentosEnArchivo(List<Alimento> alimentos, string rutaArchivo)
+        {
+            using (StreamWriter sw = new StreamWriter(rutaArchivo)) // Usamos StreamWriter para abrir o crear el archivo en la ruta especificada
+            {
+                foreach (var alimento in alimentos)
+                {
+                    string linea = string.Join("|",
+                        alimento.ID_Alimento,
+                        alimento.NombreAlimento,
+                        alimento.CaloriasPorPorcion,
+                        alimento.ProteinasPorPorcion,
+                        alimento.CarbohidratosPorPorcion,
+                        alimento.GrasasPorPorcion,
+                        alimento.UnidadMedidaBase,
+                        alimento.TamañoPorcionEstandarGramos.HasValue ? alimento.TamañoPorcionEstandarGramos.Value.ToString() : "",
+                        alimento.TipoAlimento
+                    );
+                    sw.WriteLine(linea);// Escribimos la línea en el archivo
+                }
+            }
+        }
+
+        //recuperar
+        public List<Alimento> RecuperarAlimentosDesdeArchivo(string rutaArchivo)
+        {
+            var alimentos = new List<Alimento>();//almacen
+
+            if (!File.Exists(rutaArchivo)) // Si el archivo no existe, devolvemos la lista vacía
+                return alimentos;
+
+            string[] lineas = File.ReadAllLines(rutaArchivo);
+
+            foreach (var linea in lineas)
+            {
+                var campos = linea.Split('|');
+                if (campos.Length == 9)
+                {
+                    try
+                    {
+                        int id = int.Parse(campos[0]);
+                        string nombre = campos[1];
+                        double calorias = double.Parse(campos[2]);
+                        double proteinas = double.Parse(campos[3]);
+                        double carbohidratos = double.Parse(campos[4]);
+                        double grasas = double.Parse(campos[5]);
+                        string unidadMedida = campos[6];
+                        double? tamañoPorcion = null;
+                        if (!string.IsNullOrEmpty(campos[7]))
+                            tamañoPorcion = double.Parse(campos[7]);
+                        string tipo = campos[8];
+
+                        alimentos.Add(new Alimento
+                        {
+                            ID_Alimento = id,
+                            NombreAlimento = nombre,
+                            CaloriasPorPorcion = calorias,
+                            ProteinasPorPorcion = proteinas,
+                            CarbohidratosPorPorcion = carbohidratos,
+                            GrasasPorPorcion = grasas,
+                            UnidadMedidaBase = unidadMedida,
+                            TamañoPorcionEstandarGramos = tamañoPorcion,
+                            TipoAlimento = tipo
+                        });
+                    }
+                    catch
+                    {
+                        // Ignorar líneas mal formateadas o errores de parseo
+                        continue;
+                    }
+                }
+            }
+
+            return alimentos;
+        }
+
+
+
+
+
+
+
 
         public AlimentoRepositorio()
         {

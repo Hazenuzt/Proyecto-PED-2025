@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,76 @@ namespace Proyecto_PED.Modelo.LogicaNegocio
     internal class RecetaRepositorio
     {
         private List<Receta> _recetas;
+        private string rutaArchivo = "Receta.txt";
 
-        //Esta clase se tiene que cambiar, por la conexion a la DB que recupere todos los elementos de tipo "Receta y los cargue en una lista.
+        // Método para guardar la lista de recetas en un archivo de texto
+        public void GuardarRecetasEnArchivo(List<Receta> recetas, string rutaArchivo)
+        {
+            using (StreamWriter sw = new StreamWriter(rutaArchivo))
+            {
+                foreach (var receta in recetas)
+                {
+                    // Los ids se convierten en una cadena separada por comas
+                    string ingredientes = string.Join(",", receta.IDsIngredientes);
+
+                    string linea = string.Join("|",
+                        receta.ID_Receta,
+                        receta.NombreReceta,
+                        ingredientes,
+                        receta.CaloriasTotales
+                    );
+                    sw.WriteLine(linea);
+                }
+            }
+        }
+
+        // Método para recuperar la lista de recetas desde un archivo de texto
+        public List<Receta> RecuperarRecetasDesdeArchivo(string rutaArchivo)
+        {
+            var recetas = new List<Receta>();
+
+            if (!File.Exists(rutaArchivo))
+                return recetas;
+
+            string[] lineas = File.ReadAllLines(rutaArchivo);
+
+            foreach (var linea in lineas)
+            {
+                var campos = linea.Split('|');
+                if (campos.Length == 4)
+                {
+                    try
+                    {
+                        int id = int.Parse(campos[0]);
+                        string nombre = campos[1];
+
+                        // Convertimos la cadena de ingredientes "1,5,9" en una lista de enteros
+                        List<int> idsIngredientes = campos[2]
+                            .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Select(int.Parse)
+                            .ToList();
+
+                        double calorias = double.Parse(campos[3]);
+
+                        recetas.Add(new Receta
+                        {
+                            ID_Receta = id,
+                            NombreReceta = nombre,
+                            IDsIngredientes = idsIngredientes,
+                            CaloriasTotales = calorias
+                        });
+                    }
+                    catch
+                    {
+                        // Si hay error en el parseo, se ignora la línea
+                        continue;
+                    }
+                }
+            }
+
+            return recetas;
+        }
+
 
         public RecetaRepositorio()
         {
