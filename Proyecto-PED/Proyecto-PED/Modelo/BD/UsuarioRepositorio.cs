@@ -5,103 +5,84 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.Entidades;
+using System.Data.SqlClient;
 
 namespace Proyecto_PED.Modelo.BD
 {
     internal class UsuarioRepositorio
     {
-        private string rutaArchivo = "usuarios.txt";
         private List<Usuario> _usuarios;
 
         public UsuarioRepositorio()
         {
-            if (File.Exists(rutaArchivo))//si ya existe 
-            {
-                _usuarios = RecuperarUsuariosDesdeArchivo(rutaArchivo);
-            }
-            else
-            {
-                _usuarios = new List<Usuario>();
-            }
-        
+            _usuarios = RecuperarUsuariosDesdeBD();
         }
 
-        // Guarda la lista de usuarios en el archivo indicado
-        public void GuardarUsuariosEnArchivo(List<Usuario> usuarios, string rutaArchivo)
+        // Guarda la lista de usuarios en la base de datos
+        public void GuardarUsuariosEnArchivo(List<Usuario> usuarios, string _)
         {
-            // Usamos StreamWriter para escribir en el archivo 
-            using (StreamWriter sw = new StreamWriter(rutaArchivo))
+            using (SqlConnection conn = new ConexionBD().ObtenerConexion())  // Establecemos conexión a la base de datos
             {
                 foreach (var usuario in usuarios)
                 {
-                    // separados por '|',Esto permite almacenar varios datos en una sola línea de texto
-                    string linea = string.Join("|",
-                        usuario.Id_Usuario,
-                        usuario.Nombre,
-                        usuario.Apellido,
-                        usuario.Edad,
-                        usuario.Estatura,
-                        usuario.Peso,
-                        usuario.Username,
-                        usuario.Password,
-                        usuario.CantCalorias
-                    );
-                    sw.WriteLine(linea); // Escribimos la línea en el archivo
+                    // Consulta SQL para insertar un nuevo usuario
+                    string query = @"INSERT INTO Usuario 
+                (Nombre, Apellido, Edad, Estatura, Peso, Username, Contraseña, CantCalorias) 
+                VALUES (@Nombre, @Apellido, @Edad, @Estatura, @Peso, @Username, @Password, @CantCalorias)";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido", usuario.Apellido);
+                    cmd.Parameters.AddWithValue("@Edad", usuario.Edad);
+                    cmd.Parameters.AddWithValue("@Estatura", usuario.Estatura);
+                    cmd.Parameters.AddWithValue("@Peso", usuario.Peso);
+                    cmd.Parameters.AddWithValue("@Username", usuario.Username);
+                    cmd.Parameters.AddWithValue("@Password", usuario.Password);
+                    cmd.Parameters.AddWithValue("@CantCalorias", usuario.CantCalorias);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        // Recupera la lista de usuarios desde el archivo indicado
-        public List<Usuario> RecuperarUsuariosDesdeArchivo(string rutaArchivo)
+        // Recupera la lista de usuarios desde la base de datos
+        // Aunque el parámetro rutaArchivo sigue presente, no se usa
+        public List<Usuario> RecuperarUsuariosDesdeArchivo(string _)
         {
-            var usuarios = new List<Usuario>();
-            if (!File.Exists(rutaArchivo))// Si el archivo no existe, retornamos lista vacía
-                return usuarios;
-            string[] lineas = File.ReadAllLines(rutaArchivo);
+            return RecuperarUsuariosDesdeBD(); // Reutilizamos el método privado
+        }
 
-            foreach (var linea in lineas)
+        // Método  que se encarga de obtener los usuarios desde la tabla Usuario
+        private List<Usuario> RecuperarUsuariosDesdeBD()
+        {
+            List<Usuario> usuarios = new List<Usuario>();
+
+            using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
-                var campos = linea.Split('|');
+                string query = "SELECT * FROM Usuario";// Consulta SQL para obtener todos los usuarios
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                // Validamos que la línea tenga el número correcto de campos
-                if (campos.Length == 9)
+                while (reader.Read())
                 {
-                    try
+                    Usuario usuario = new Usuario
                     {
-                        //  convertir los campos a sus tipos correspondientes
-                        int id = int.Parse(campos[0]);
-                        string nombre = campos[1];
-                        string apellido = campos[2];
-                        int edad = int.Parse(campos[3]);
-                        double estatura = double.Parse(campos[4]);
-                        double peso = double.Parse(campos[5]);
-                        string username = campos[6];
-                        string password = campos[7];
-                        double cantCalorias = double.Parse(campos[8]);
+                        Id_Usuario = (int)reader["Id_Usuario"],
+                        Nombre = reader["Nombre"].ToString(),
+                        Apellido = reader["Apellido"].ToString(),
+                        Edad = (int)reader["Edad"],
+                        Estatura = Convert.ToDouble(reader["Estatura"]),
+                        Peso = Convert.ToDouble(reader["Peso"]),
+                        Username = reader["Username"].ToString(),
+                        Password = reader["Contraseña"].ToString(),
+                        CantCalorias = Convert.ToDouble(reader["CantCalorias"])
+                    };
 
-                        // Creamos un nuevo objeto Usuario y lo agregamos a la lista
-                        usuarios.Add(new Usuario
-                        {
-                            Id_Usuario = id,
-                            Nombre = nombre,
-                            Apellido = apellido,
-                            Edad = edad,
-                            Estatura = estatura,
-                            Peso = peso,
-                            Username = username,
-                            Password = password,
-                            CantCalorias = cantCalorias
-                        });
-                    }
-                    catch
-                    {
-                        // Si hay algún error en el parseo, ignoramos esa línea y seguimos
-                        continue;
-                    }
+                    usuarios.Add(usuario);
                 }
             }
 
-            return usuarios; // Retornamos la lista con los usuarios recuperados
+            return usuarios;
         }
 
 

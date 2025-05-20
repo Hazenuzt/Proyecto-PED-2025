@@ -30,8 +30,8 @@
         {
             this.dgvAlimentosSugeridos = new System.Windows.Forms.DataGridView();
             this.rtbResumenReceta = new System.Windows.Forms.RichTextBox();
-            this.btnCerrar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnAtras = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAlimentosSugeridos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -39,49 +39,62 @@
             // 
             this.dgvAlimentosSugeridos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvAlimentosSugeridos.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvAlimentosSugeridos.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
             this.dgvAlimentosSugeridos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAlimentosSugeridos.Location = new System.Drawing.Point(455, 45);
+            this.dgvAlimentosSugeridos.Location = new System.Drawing.Point(682, 69);
+            this.dgvAlimentosSugeridos.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvAlimentosSugeridos.Name = "dgvAlimentosSugeridos";
             this.dgvAlimentosSugeridos.RowHeadersVisible = false;
-            this.dgvAlimentosSugeridos.Size = new System.Drawing.Size(315, 150);
+            this.dgvAlimentosSugeridos.RowHeadersWidth = 62;
+            this.dgvAlimentosSugeridos.Size = new System.Drawing.Size(472, 231);
             this.dgvAlimentosSugeridos.TabIndex = 0;
             // 
             // rtbResumenReceta
             // 
-            this.rtbResumenReceta.Location = new System.Drawing.Point(455, 210);
+            this.rtbResumenReceta.Location = new System.Drawing.Point(682, 323);
+            this.rtbResumenReceta.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.rtbResumenReceta.Name = "rtbResumenReceta";
-            this.rtbResumenReceta.Size = new System.Drawing.Size(315, 188);
+            this.rtbResumenReceta.Size = new System.Drawing.Size(470, 287);
             this.rtbResumenReceta.TabIndex = 1;
             this.rtbResumenReceta.Text = "";
-            // 
-            // btnCerrar
-            // 
-            this.btnCerrar.Location = new System.Drawing.Point(524, 404);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(86, 34);
-            this.btnCerrar.TabIndex = 2;
-            this.btnCerrar.Text = "Regresar";
-            this.btnCerrar.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(452, 18);
+            this.label1.Location = new System.Drawing.Point(678, 28);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(169, 13);
+            this.label1.Size = new System.Drawing.Size(253, 20);
             this.label1.TabIndex = 3;
             this.label1.Text = "Sugerencia Generada por PlanEat";
             // 
+            // btnAtras
+            // 
+            this.btnAtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(181)))), ((int)(((byte)(80)))));
+            this.btnAtras.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnAtras.Location = new System.Drawing.Point(739, 635);
+            this.btnAtras.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAtras.Name = "btnAtras";
+            this.btnAtras.Size = new System.Drawing.Size(159, 43);
+            this.btnAtras.TabIndex = 33;
+            this.btnAtras.Text = "Regresar";
+            this.btnAtras.UseVisualStyleBackColor = false;
+            // 
             // VistaComida
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackgroundImage = global::Proyecto_PED.Properties.Resources.Fondo;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1200, 692);
+            this.Controls.Add(this.btnAtras);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnCerrar);
             this.Controls.Add(this.rtbResumenReceta);
             this.Controls.Add(this.dgvAlimentosSugeridos);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VistaComida";
@@ -98,7 +111,7 @@
 
         private System.Windows.Forms.DataGridView dgvAlimentosSugeridos;
         private System.Windows.Forms.RichTextBox rtbResumenReceta;
-        private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnAtras;
     }
 }

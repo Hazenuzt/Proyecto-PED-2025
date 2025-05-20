@@ -5,90 +5,90 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.Entidades;
+using System.Data.SqlClient;
+using Proyecto_PED.Modelo.BD;
 
 namespace Proyecto_PED.Modelo.LogicaNegocio
 {
     internal class AlimentoRepositorio
     {
         private List<Alimento> _alimentos;
-        private  string RutaArchivo = "alimentos.txt";
 
 
-        //guardar
-        public void GuardarAlimentosEnArchivo(List<Alimento> alimentos, string rutaArchivo)
+        // Guarda la lista de alimentos en la base de datos
+        // El parámetro rutaArchivo se conserva por compatibilidad, pero no se usa
+        public void GuardarAlimentosEnArchivo(List<Alimento> alimentos, string _)
         {
-            using (StreamWriter sw = new StreamWriter(rutaArchivo)) // Usamos StreamWriter para abrir o crear el archivo en la ruta especificada
+            using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
                 foreach (var alimento in alimentos)
                 {
-                    string linea = string.Join("|",
-                        alimento.ID_Alimento,
-                        alimento.NombreAlimento,
-                        alimento.CaloriasPorPorcion,
-                        alimento.ProteinasPorPorcion,
-                        alimento.CarbohidratosPorPorcion,
-                        alimento.GrasasPorPorcion,
-                        alimento.UnidadMedidaBase,
-                        alimento.TamañoPorcionEstandarGramos.HasValue ? alimento.TamañoPorcionEstandarGramos.Value.ToString() : "",
-                        alimento.TipoAlimento
-                    );
-                    sw.WriteLine(linea);// Escribimos la línea en el archivo
+                    // Consulta SQL para insertar un nuevo alimento
+                    string query = @"INSERT INTO Alimento 
+                                (NombreAlimento, CaloriasPorPorcion, ProteinasPorPorcion, 
+                                 CarbohidratosPorPorcion, GrasasPorPorcion, UnidadMedidaBase, 
+                                 TamañoPorcionEstandarGramos, TipoAlimento)
+                                VALUES 
+                                (@NombreAlimento, @Calorias, @Proteinas, @Carbohidratos, 
+                                 @Grasas, @UnidadMedida, @TamañoPorcion, @TipoAlimento)";
+
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@NombreAlimento", alimento.NombreAlimento);
+                    cmd.Parameters.AddWithValue("@Calorias", alimento.CaloriasPorPorcion);
+                    cmd.Parameters.AddWithValue("@Proteinas", alimento.ProteinasPorPorcion);
+                    cmd.Parameters.AddWithValue("@Carbohidratos", alimento.CarbohidratosPorPorcion);
+                    cmd.Parameters.AddWithValue("@Grasas", alimento.GrasasPorPorcion);
+                    cmd.Parameters.AddWithValue("@UnidadMedida", alimento.UnidadMedidaBase);
+                    cmd.Parameters.AddWithValue("@TamañoPorcion", (object)alimento.TamañoPorcionEstandarGramos ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TipoAlimento", alimento.TipoAlimento);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
 
-        //recuperar
-        public List<Alimento> RecuperarAlimentosDesdeArchivo(string rutaArchivo)
+        // Recupera los alimentos desde la base de datos
+        // El parámetro rutaArchivo no se utiliza
+        public List<Alimento> RecuperarAlimentosDesdeArchivo(string _)
         {
-            var alimentos = new List<Alimento>();//almacen
+            return RecuperarAlimentosDesdeBD();
+        }
 
-            if (!File.Exists(rutaArchivo)) // Si el archivo no existe, devolvemos la lista vacía
-                return alimentos;
+        // Método privado que obtiene los alimentos desde la tabla Alimento
+        private List<Alimento> RecuperarAlimentosDesdeBD()
+        {
+            List<Alimento> alimentos = new List<Alimento>();
 
-            string[] lineas = File.ReadAllLines(rutaArchivo);
-
-            foreach (var linea in lineas)
+            using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
-                var campos = linea.Split('|');
-                if (campos.Length == 9)
-                {
-                    try
-                    {
-                        int id = int.Parse(campos[0]);
-                        string nombre = campos[1];
-                        double calorias = double.Parse(campos[2]);
-                        double proteinas = double.Parse(campos[3]);
-                        double carbohidratos = double.Parse(campos[4]);
-                        double grasas = double.Parse(campos[5]);
-                        string unidadMedida = campos[6];
-                        double? tamañoPorcion = null;
-                        if (!string.IsNullOrEmpty(campos[7]))
-                            tamañoPorcion = double.Parse(campos[7]);
-                        string tipo = campos[8];
+                string query = "SELECT * FROM Alimento"; // Consulta SQL
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                        alimentos.Add(new Alimento
-                        {
-                            ID_Alimento = id,
-                            NombreAlimento = nombre,
-                            CaloriasPorPorcion = calorias,
-                            ProteinasPorPorcion = proteinas,
-                            CarbohidratosPorPorcion = carbohidratos,
-                            GrasasPorPorcion = grasas,
-                            UnidadMedidaBase = unidadMedida,
-                            TamañoPorcionEstandarGramos = tamañoPorcion,
-                            TipoAlimento = tipo
-                        });
-                    }
-                    catch
+                while (reader.Read())
+                {
+                    Alimento alimento = new Alimento
                     {
-                        // Ignorar líneas mal formateadas o errores de parseo
-                        continue;
-                    }
+                        ID_Alimento = (int)reader["ID_Alimento"],
+                        NombreAlimento = reader["NombreAlimento"].ToString(),
+                        CaloriasPorPorcion = Convert.ToDouble(reader["CaloriasPorPorcion"]),
+                        ProteinasPorPorcion = Convert.ToDouble(reader["ProteinasPorPorcion"]),
+                        CarbohidratosPorPorcion = Convert.ToDouble(reader["CarbohidratosPorPorcion"]),
+                        GrasasPorPorcion = Convert.ToDouble(reader["GrasasPorPorcion"]),
+                        UnidadMedidaBase = reader["UnidadMedidaBase"].ToString(),
+                        TamañoPorcionEstandarGramos = reader["TamañoPorcionEstandarGramos"] != DBNull.Value
+                            ? Convert.ToDouble(reader["TamañoPorcionEstandarGramos"])
+                            : (double?)null,
+                        TipoAlimento = reader["TipoAlimento"].ToString()
+                    };
+
+                    alimentos.Add(alimento);
                 }
             }
 
             return alimentos;
         }
+
 
 
 
@@ -163,6 +163,8 @@ namespace Proyecto_PED.Modelo.LogicaNegocio
             new Alimento(48, "Queso Fresco", 250, 18, 2, 18, "g", 50, "Lácteo", new List<string>{"desayuno", "almuerzo"}, "Proteina"),
             new Alimento(49, "Pan Árabe", 260, 9, 50, 3, "g", 70, "Cereal", new List<string>{"almuerzo", "cena"}, "Base")
         };
+            // Al instanciar el repositorio, cargamos los alimentos desde la base de datos
+            _alimentos = RecuperarAlimentosDesdeBD();
         }
 
         public List<Alimento> ObtenerTodosLosAlimentos()

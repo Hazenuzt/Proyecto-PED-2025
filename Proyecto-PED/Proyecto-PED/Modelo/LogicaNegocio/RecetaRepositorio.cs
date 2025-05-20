@@ -5,76 +5,106 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Proyecto_PED.Modelo.Entidades;
+using System.Data.SqlClient;
+using Proyecto_PED.Modelo.BD;
 
 namespace Proyecto_PED.Modelo.LogicaNegocio
 {
     internal class RecetaRepositorio
     {
         private List<Receta> _recetas;
-        private string rutaArchivo = "Receta.txt";
 
-        // Método para guardar la lista de recetas en un archivo de texto
-        public void GuardarRecetasEnArchivo(List<Receta> recetas, string rutaArchivo)
+      
+
+        // Guarda la lista de recetas en la base de datos
+        // El parámetro rutaArchivo se mantiene por compatibilidad, pero no se usa
+        public void GuardarRecetasEnArchivo(List<Receta> recetas, string _)
         {
-            using (StreamWriter sw = new StreamWriter(rutaArchivo))
+            using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
                 foreach (var receta in recetas)
                 {
-                    // Los ids se convierten en una cadena separada por comas
-                    string ingredientes = string.Join(",", receta.IDsIngredientes);
+                    // Insertamos la receta en la tabla Receta
+                    string queryReceta = @"INSERT INTO Receta (NombreReceta, CaloriasTotales) 
+                                       VALUES (@NombreReceta, @CaloriasTotales);
+                                       SELECT SCOPE_IDENTITY();"; // Obtenemos el ID generado
 
-                    string linea = string.Join("|",
-                        receta.ID_Receta,
-                        receta.NombreReceta,
-                        ingredientes,
-                        receta.CaloriasTotales
-                    );
-                    sw.WriteLine(linea);
+                    SqlCommand cmdReceta = new SqlCommand(queryReceta, conn);
+                    cmdReceta.Parameters.AddWithValue("@NombreReceta", receta.NombreReceta);
+                    cmdReceta.Parameters.AddWithValue("@CaloriasTotales", receta.CaloriasTotales);
+
+                    // Ejecutamos el INSERT y recuperamos el ID generado
+                    int idReceta = Convert.ToInt32(cmdReceta.ExecuteScalar());
+
+                    // Insertamos los ingredientes de la receta en la tabla intermedia Receta_Ingrediente
+                    foreach (var idIngrediente in receta.IDsIngredientes)
+                    {
+                        string queryIngrediente = @"INSERT INTO Receta_Ingrediente (ID_Receta, ID_Ingrediente)
+                                                VALUES (@ID_Receta, @ID_Ingrediente)";
+                        SqlCommand cmdIngrediente = new SqlCommand(queryIngrediente, conn);
+                        cmdIngrediente.Parameters.AddWithValue("@ID_Receta", idReceta);
+                        cmdIngrediente.Parameters.AddWithValue("@ID_Ingrediente", idIngrediente);
+                        cmdIngrediente.ExecuteNonQuery();
+                    }
                 }
             }
         }
 
-        // Método para recuperar la lista de recetas desde un archivo de texto
-        public List<Receta> RecuperarRecetasDesdeArchivo(string rutaArchivo)
+        // Recupera la lista de recetas desde la base de datos
+        // El parámetro rutaArchivo no se usa, pero se conserva por compatibilidad
+        public List<Receta> RecuperarRecetasDesdeArchivo(string _)
         {
-            var recetas = new List<Receta>();
+            return RecuperarRecetasDesdeBD();
+        }
 
-            if (!File.Exists(rutaArchivo))
-                return recetas;
+        // Método que recupera las recetas desde la base de datos
+        private List<Receta> RecuperarRecetasDesdeBD()
+        {
+            List<Receta> recetas = new List<Receta>();
 
-            string[] lineas = File.ReadAllLines(rutaArchivo);
-
-            foreach (var linea in lineas)
+            using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
-                var campos = linea.Split('|');
-                if (campos.Length == 4)
+                // Recuperamos todas las recetas
+                string queryRecetas = "SELECT * FROM Receta";
+                SqlCommand cmdRecetas = new SqlCommand(queryRecetas, conn);
+                SqlDataReader readerRecetas = cmdRecetas.ExecuteReader();
+
+                while (readerRecetas.Read())
                 {
-                    try
+                    int idReceta = (int)readerRecetas["ID_Receta"];
+                    string nombre = readerRecetas["NombreReceta"].ToString();
+                    double calorias = Convert.ToDouble(readerRecetas["CaloriasTotales"]);
+
+                    // Creamos el objeto receta sin ingredientes todavía
+                    Receta receta = new Receta
                     {
-                        int id = int.Parse(campos[0]);
-                        string nombre = campos[1];
+                        ID_Receta = idReceta,
+                        NombreReceta = nombre,
+                        CaloriasTotales = calorias,
+                        IDsIngredientes = new List<int>() // Se llenará después
+                    };
 
-                        // Convertimos la cadena de ingredientes "1,5,9" en una lista de enteros
-                        List<int> idsIngredientes = campos[2]
-                            .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                            .Select(int.Parse)
-                            .ToList();
+                    recetas.Add(receta);
+                }
 
-                        double calorias = double.Parse(campos[3]);
+                readerRecetas.Close(); // Cerramos el lector antes de ejecutar otra consulta
 
-                        recetas.Add(new Receta
-                        {
-                            ID_Receta = id,
-                            NombreReceta = nombre,
-                            IDsIngredientes = idsIngredientes,
-                            CaloriasTotales = calorias
-                        });
-                    }
-                    catch
+                // Ahora, por cada receta, recuperamos sus ingredientes
+                foreach (var receta in recetas)
+                {
+                    string queryIngredientes = @"SELECT ID_Ingrediente FROM Receta_Ingrediente 
+                                             WHERE ID_Receta = @ID_Receta";
+
+                    SqlCommand cmdIngredientes = new SqlCommand(queryIngredientes, conn);
+                    cmdIngredientes.Parameters.AddWithValue("@ID_Receta", receta.ID_Receta);
+
+                    SqlDataReader readerIngredientes = cmdIngredientes.ExecuteReader();
+                    while (readerIngredientes.Read())
                     {
-                        // Si hay error en el parseo, se ignora la línea
-                        continue;
+                        int idIngrediente = (int)readerIngredientes["ID_Ingrediente"];
+                        receta.IDsIngredientes.Add(idIngrediente);
                     }
+                    readerIngredientes.Close();
                 }
             }
 
@@ -113,6 +143,8 @@ namespace Proyecto_PED.Modelo.LogicaNegocio
             new Receta(124, "Pan Árabe con Hummus y Pepino", new List<int>{49, 38, 30}, 300.0),
             new Receta(125, "Ensalada de Atún (Salmón) y Aguacate", new List<int>{3, 13, 32}, 360.0)
         };
+            // Al crear el repositorio, cargamos las recetas desde la base de datos
+            _recetas = RecuperarRecetasDesdeBD();
         }
 
         public List<Receta> ObtenerTodasLasRecetas()
