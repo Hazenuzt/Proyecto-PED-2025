@@ -47,8 +47,9 @@ namespace Proyecto_PED.Vista
                         if (count > 0)
                         {
                             MessageBox.Show("Inicio de sesión exitoso");
+                            Usuario usuarioo=_usuarioRepositorio.ObtenerUsuarioPorNombreUsuario(usuario);
                             // Assuming PaginaPrincipal needs the user data
-                            PaginaPrincipal mainForm = new PaginaPrincipal(usuario);
+                            PaginaPrincipal mainForm = new PaginaPrincipal(usuarioo);
                             mainForm.Show();
                             this.Hide();
                         }
