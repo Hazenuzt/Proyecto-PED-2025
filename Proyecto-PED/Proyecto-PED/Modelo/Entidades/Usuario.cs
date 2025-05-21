@@ -21,6 +21,15 @@ namespace Proyecto_PED.Modelo.Entidades
         private string password;
         private double cantCalorias;
 
+        // para el imc (esto es una prueva)
+        public double imcCalcular()
+        {
+            if (estatura <= 0) return 0;
+            return peso / (estatura * estatura);
+        }
+
+
+
         //propiedades 
         public int Id_Usuario
         {
@@ -184,6 +193,7 @@ namespace Proyecto_PED.Modelo.Entidades
         Sobrepeso,
         Obeso
     }
+
 
     //clase estática para mantener los datos del usuario entre formularios
     public static class DatosGlobales

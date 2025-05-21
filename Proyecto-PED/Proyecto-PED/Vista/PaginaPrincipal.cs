@@ -75,11 +75,17 @@ namespace Proyecto_PED.Vista
                 lblPeso.Text = _usuarioActual.Peso.ToString();
                 lblActFisica.Text = _usuarioActual.Nivel_Actividad.ToString();
                 lblObjetivos.Text = _usuarioActual.Objetivo.ToString();
+                LblIMC.Text = _usuarioActual.imcCalcular().ToString();//lo del imc 
             }
             else
             {
                 MessageBox.Show("No se encontraron datos del usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void lblAltura_Click(object sender, EventArgs e)
+        {
+
         }
     }   
 }
