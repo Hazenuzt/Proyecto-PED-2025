@@ -44,8 +44,7 @@ CREATE TABLE Receta (
     CaloriasTotales DECIMAL(10,2) NOT NULL
 );
 
-
-CREATE TABLE RecetaIngrediente (
+CREATE TABLE Receta_Ingrediente (
     ID INT PRIMARY KEY IDENTITY (1,1),
     ID_Receta INT NOT NULL,
     ID_Alimento INT NOT NULL,
@@ -64,6 +63,17 @@ CREATE TABLE Plan_Receta (
     Opcion INT NOT NULL, -- Para indicar la opción de receta si hay varias para el mismo tiempo de comida
     FOREIGN KEY (Id_Receta) REFERENCES Receta(ID_Receta)
     -- FOREIGN KEY (Id_Plan) REFERENCES Plan(ID_Plan)
+);
+
+--Tabla Plan_Comidas
+CREATE TABLE Plan_Comidas (
+    Id_Plan INT PRIMARY KEY IDENTITY(1,1),
+    Id_Usuario INT NOT NULL,
+    Fecha_Generacion DATETIME NOT NULL DEFAULT GETDATE(),
+    Calorias_Diarias DECIMAL(10,2) NOT NULL,
+    Estado NVARCHAR(50) DEFAULT 'Activo', -- Para marcar si el plan está activo, completado, etc.
+    Descripcion NVARCHAR(255) NULL,
+    FOREIGN KEY (Id_Usuario) REFERENCES Usuario(ID_Usuario)
 );
 
 
@@ -194,7 +204,7 @@ INSERT INTO Receta (NombreReceta, CaloriasTotales) VALUES
 
 GO
 
-INSERT INTO RecetaIngrediente (ID_Receta, ID_Alimento) VALUES
+INSERT INTO Receta_Ingrediente (ID_Receta, ID_Alimento) VALUES
 -- Original Recipes (linking by name)
 ((SELECT ID_Receta FROM Receta WHERE NombreReceta = 'Pollo al Curry con Arroz y Brócoli'), 1),
 ((SELECT ID_Receta FROM Receta WHERE NombreReceta = 'Pollo al Curry con Arroz y Brócoli'), 5),

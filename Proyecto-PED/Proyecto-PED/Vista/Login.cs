@@ -34,53 +34,38 @@ namespace Proyecto_PED.Vista
                 MessageBox.Show("Usuario y contraseña son obligatorios");
                 return;
             }
+            Usuario usuarioLogueado = null; // Declaramos aquí para que esté disponible en todo el método click
 
             try
             {
-                using (SqlConnection conn = new ConexionBD().ObtenerConexion())
-                {
-                    conn.Open();
-                    string query = @"SELECT * FROM Usuario WHERE Username = @Username AND Password = @Password";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", usuario);
-                        cmd.Parameters.AddWithValue("@Password", contra);
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                Usuario usuarioLogueado = new Usuario
-                                {
-                                    Id_Usuario = Convert.ToInt32(reader["ID_Usuario"]),
-                                    Nombre = reader["Nombre"].ToString(),
-                                    Apellido = reader["Apellido"].ToString(),
-                                    Edad = Convert.ToInt32(reader["Edad"]),
-                                    Estatura = Convert.ToDouble(reader["Estatura"]),
-                                    Peso = Convert.ToDouble(reader["Peso"]),
-                                    Username = reader["Username"].ToString(),
-                                    Password = reader["Password"].ToString(),
-                                    CantCalorias = reader["CantCalorias"] != DBNull.Value ? Convert.ToDouble(reader["CantCalorias"]) : 0.0,
-                                    Genero = (Genero)Enum.Parse(typeof(Genero), reader["Genero"].ToString()),
-                                    Nivel_Actividad = (NivelActividad)Enum.Parse(typeof(NivelActividad), reader["Nivel_Actividad"].ToString()),
-                                    Objetivo = (Objetivo)Enum.Parse(typeof(Objetivo), reader["Objetivo"].ToString()),
-                                    EstadoFisicoUsuario = (EstadoFisicoUsuario)Enum.Parse(typeof(EstadoFisicoUsuario), reader["EstadoFisico"].ToString())
-                                };
-                                MessageBox.Show("Inicio de sesión exitoso");
-                                PaginaPrincipal mainForm = new PaginaPrincipal(usuarioLogueado);
-                                mainForm.Show();
-                                this.Hide();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Credenciales incorrectas");
-                            }
-                        }
-                    }
-                }
+                // La llamada al controlador ahora envuelve toda la lógica de DB
+                usuarioLogueado = login.InicioSesion(usuario, contra);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                // Este catch captura errores que *escapen* del controlador,
+                // por ejemplo, si el ControladorLogin o UsuarioDAO lanzan una excepción.
+                MessageBox.Show($"Ocurrió un error inesperado al intentar iniciar sesión: {ex.Message}", "Error del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Importante: si hay un error en la DB, no continúes
+            }
+
+            // A PARTIR DE AQUÍ, TODA LA INTERACCIÓN CON LA BASE DE DATOS YA HA TERMINADO.
+            // La conexión ya ha sido cerrada por el 'using' en UsuarioDAO.
+            // Ahora, solo nos preocupamos por la lógica de la UI.
+
+            if (usuarioLogueado != null)
+            {
+                MessageBox.Show("Inicio de sesión exitoso", "Bienvenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                PaginaPrincipal mainForm = new PaginaPrincipal(usuarioLogueado);
+                mainForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                // Si usuarioLogueado es null, significa que las credenciales son incorrectas
+                // o hubo un problema en la DB (manejado internamente por UsuarioDAO que devuelve null)
+                MessageBox.Show("Credenciales incorrectas. Por favor, verifica tu usuario y contraseña.", "Error de Inicio de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

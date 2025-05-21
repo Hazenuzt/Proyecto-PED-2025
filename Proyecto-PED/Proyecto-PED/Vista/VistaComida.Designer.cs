@@ -42,7 +42,7 @@
             this.dgvAlimentosSugeridos.BackgroundColor = System.Drawing.SystemColors.ActiveBorder;
             this.dgvAlimentosSugeridos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAlimentosSugeridos.Location = new System.Drawing.Point(421, 130);
-            this.dgvAlimentosSugeridos.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvAlimentosSugeridos.Margin = new System.Windows.Forms.Padding(4);
             this.dgvAlimentosSugeridos.Name = "dgvAlimentosSugeridos";
             this.dgvAlimentosSugeridos.RowHeadersVisible = false;
             this.dgvAlimentosSugeridos.RowHeadersWidth = 62;
@@ -52,7 +52,7 @@
             // rtbResumenReceta
             // 
             this.rtbResumenReceta.Location = new System.Drawing.Point(421, 333);
-            this.rtbResumenReceta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rtbResumenReceta.Margin = new System.Windows.Forms.Padding(4);
             this.rtbResumenReceta.Name = "rtbResumenReceta";
             this.rtbResumenReceta.Size = new System.Drawing.Size(493, 264);
             this.rtbResumenReceta.TabIndex = 1;
@@ -64,12 +64,13 @@
             this.btnAtras.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAtras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnAtras.Location = new System.Drawing.Point(689, 611);
-            this.btnAtras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAtras.Margin = new System.Windows.Forms.Padding(4);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(176, 47);
             this.btnAtras.TabIndex = 33;
             this.btnAtras.Text = "Regresar";
             this.btnAtras.UseVisualStyleBackColor = false;
+            this.btnAtras.Click += new System.EventHandler(this.btnAtras_Click);
             // 
             // label2
             // 
@@ -96,7 +97,7 @@
             this.Controls.Add(this.dgvAlimentosSugeridos);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VistaComida";

@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Controlador\Controlador.cs" />
     <Compile Include="Modelo\BD\DBComidas.cs" />
+    <Compile Include="Modelo\BD\UsuarioRepositorio.cs" />
     <Compile Include="Modelo\LogicaNegocio\ArbolDecision.cs" />
     <Compile Include="Modelo\BD\ConexionBD.cs" />
     <Compile Include="Modelo\Entidades\Alimento.cs" />

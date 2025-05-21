@@ -190,5 +190,10 @@ namespace Proyecto_PED.Vista
         {
             this.Close(); // Cierra el formulario de resultados
         }
+
+        private void btnAtras_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
