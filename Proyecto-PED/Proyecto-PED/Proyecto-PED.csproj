@@ -115,12 +115,6 @@
     <Compile Include="Vista\ObjetivoCumplir.Designer.cs">
       <DependentUpon>ObjetivoCumplir.cs</DependentUpon>
     </Compile>
-    <Compile Include="Vista\Preferencias.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Vista\Preferencias.Designer.cs">
-      <DependentUpon>Preferencias.cs</DependentUpon>
-    </Compile>
     <Compile Include="Vista\PlanesComida.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,9 +151,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\ObjetivoCumplir.resx">
       <DependentUpon>ObjetivoCumplir.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Vista\Preferencias.resx">
-      <DependentUpon>Preferencias.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\PlanesComida.resx">
       <DependentUpon>PlanesComida.cs</DependentUpon>

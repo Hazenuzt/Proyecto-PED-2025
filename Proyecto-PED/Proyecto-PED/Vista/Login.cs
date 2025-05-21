@@ -20,7 +20,6 @@ namespace Proyecto_PED.Vista
 		private ControladorLogin login = new ControladorLogin();
         
         private UsuarioRepositorio _usuarioRepositorio;
-        private string connectionString = "Data Source=localhost;Initial Catalog=PlanEatDB;Integrated Security=True"; //cadena de conexion 
         public Login()
 		{
 			InitializeComponent();
@@ -29,35 +28,63 @@ namespace Proyecto_PED.Vista
 
 		private void btningresar_Click(object sender, EventArgs e)
 		{
+            ConexionBD cadenita = new ConexionBD();
             string usuario = txtUsuario.Text;
             string contra = txtContraseña.Text;
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = cadenita.ObtenerConexion())
                 {
                     conn.Open();
-                    string query = "SELECT COUNT(1) FROM Usuario WHERE Username = @Username AND Contraseña = @Contraseña";
+                    string query = @"SELECT id_usuario, nombre, apellido, edad, estatura, peso, 
+                           username, password, cantCalorias, Genero, Nivel_Actividad, 
+                           Objetivo, EstadoFisico 
+                           FROM Usuario 
+                           WHERE Username = @Username AND password = @Contraseña"
+;
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Username", usuario);
                         cmd.Parameters.AddWithValue("@Contraseña", contra);
-                        int count = (int)cmd.ExecuteScalar();
 
-                        if (count > 0)
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            MessageBox.Show("Inicio de sesión exitoso");
-                            // Assuming PaginaPrincipal needs the user data
-                            PaginaPrincipal mainForm = new PaginaPrincipal(usuario);
-                            mainForm.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Usuario o contraseña no válido, inténtelo nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtContraseña.Clear();
-                            txtUsuario.Clear();
-                            txtUsuario.Focus();
+                            if (reader.Read())
+                            {
+                                // Creamos y configuramos el objeto Usuario con todos los datos
+                                Usuario usuarioLogueado = new Usuario
+                                {
+                                    Id_Usuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
+                                    Nombre = reader.GetString(reader.GetOrdinal("nombre")),
+                                    Apellido = reader.GetString(reader.GetOrdinal("apellido")),
+                                    Edad = reader.GetInt32(reader.GetOrdinal("edad")),
+                                    Estatura = reader.GetDouble(reader.GetOrdinal("estatura")),
+                                    Peso = reader.GetDouble(reader.GetOrdinal("peso")),
+                                    Username = reader.GetString(reader.GetOrdinal("username")),
+                                    Password = reader.GetString(reader.GetOrdinal("password")),
+                                    CantCalorias = reader.GetDouble(reader.GetOrdinal("cantCalorias")),
+                                    Genero = (Genero)Enum.Parse(typeof(Genero), reader.GetString(reader.GetOrdinal("Genero"))),
+                                    Nivel_Actividad = (NivelActividad)Enum.Parse(typeof(NivelActividad), reader.GetString(reader.GetOrdinal("Nivel_Actividad"))),
+                                    Objetivo = (Objetivo)Enum.Parse(typeof(Objetivo), reader.GetString(reader.GetOrdinal("Objetivo"))),
+                                    EstadoFisicoUsuario = (EstadoFisicoUsuario)Enum.Parse(typeof(EstadoFisicoUsuario), reader.GetString(reader.GetOrdinal("EstadoFisico")))
+                                };
+
+                                MessageBox.Show("Inicio de sesión exitoso");
+                                // Assuming PaginaPrincipal needs the user data
+                                PaginaPrincipal mainForm = new PaginaPrincipal(usuarioLogueado);
+                                mainForm.Show();
+                                this.Hide();
+                            }
+
+
+                            else
+                            {
+                                MessageBox.Show("Usuario o contraseña no válido, inténtelo nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                txtContraseña.Clear();
+                                txtUsuario.Clear();
+                                txtUsuario.Focus();
+                            }
                         }
                     }
                 }

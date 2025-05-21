@@ -57,7 +57,7 @@ namespace Proyecto_PED.Vista
 
         private void PaginaPrincipal_Load(object sender, EventArgs e)
         {
-            
+            CargarDatosUsuario();
         }
 
         /// <summary>
@@ -68,6 +68,18 @@ namespace Proyecto_PED.Vista
         private void CargarDatosUsuario()
         {
             lblNombreBienvenida.Text = _usuarioActual.Nombre;
+
+            if (_usuarioActual != null)
+            {
+                lblAltura.Text = _usuarioActual.Estatura.ToString();
+                lblPeso.Text = _usuarioActual.Peso.ToString();
+                lblActFisica.Text = _usuarioActual.Nivel_Actividad.ToString();
+                lblObjetivos.Text = _usuarioActual.Objetivo.ToString();
+            }
+            else
+            {
+                MessageBox.Show("No se encontraron datos del usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }   
 }

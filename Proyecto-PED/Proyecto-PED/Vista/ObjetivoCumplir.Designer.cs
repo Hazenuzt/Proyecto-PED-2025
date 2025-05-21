@@ -132,7 +132,7 @@
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(133, 39);
             this.btnSiguiente.TabIndex = 25;
-            this.btnSiguiente.Text = "Siguiente";
+            this.btnSiguiente.Text = "Finalizar";
             this.btnSiguiente.UseVisualStyleBackColor = false;
             this.btnSiguiente.Click += new System.EventHandler(this.btnSiguiente_Click);
             // 
@@ -164,7 +164,7 @@
             this.btnAtras.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAtras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnAtras.Location = new System.Drawing.Point(90, 448);
-            this.btnAtras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAtras.Margin = new System.Windows.Forms.Padding(4);
             this.btnAtras.Name = "btnAtras";
             this.btnAtras.Size = new System.Drawing.Size(141, 34);
             this.btnAtras.TabIndex = 33;

@@ -12,8 +12,7 @@ namespace Proyecto_PED.Controlador
         private ValidacionUsuario validacionuser = new ValidacionUsuario();
         public bool InicioSesion(string usuario, string contra)
         {
-            //return validacionuser.ValidarUsuario(usuario, contra);
-            return true;
+            return validacionuser.ValidarUsuario(usuario, contra);
         }
     }
 }

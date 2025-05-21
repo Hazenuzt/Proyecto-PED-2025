@@ -17,7 +17,6 @@ namespace Proyecto_PED.Vista
 {
 	public partial class RegistroUsuario : Form
 	{
-        private string connectionString = "Data Source=localhost;Initial Catalog=PlanEatDB;Integrated Security=True";
 
         public RegistroUsuario()
 		{
@@ -50,39 +49,6 @@ namespace Proyecto_PED.Vista
                 string mensaje = "Debe completar los siguientes campos:\n- " + string.Join("\n- ", camposFaltantes);
                 MessageBox.Show(mensaje, "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
-
-            // Save data to the database
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string query = "INSERT INTO Usuario (Nombre, Edad, Genero, Estatura, Peso, Nivel_Actividad, Objetivo, Username, Contraseña) " +
-                                   "VALUES (@Nombre, @Edad, @Genero, @Estatura, @Peso, @Nivel_Actividad, @Objetivo, @Username, @Contraseña)";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Nombre", txtNombre.Text + " " + txtApellido.Text); // Combine Nombre and Apellido
-                        cmd.Parameters.AddWithValue("@Edad", int.Parse(txtEdad.Text));
-                        cmd.Parameters.AddWithValue("@Genero", checkBox_F.Checked ? "Femenino" : "Masculino");
-                        cmd.Parameters.AddWithValue("@Estatura", double.Parse(txtEstatura.Text));
-                        cmd.Parameters.AddWithValue("@Peso", double.Parse(txtPeso.Text));
-                        cmd.Parameters.AddWithValue("@Nivel_Actividad", "Ligero"); // Hardcoded for now
-                        cmd.Parameters.AddWithValue("@Objetivo", "Perder peso");  // Hardcoded for now
-                        cmd.Parameters.AddWithValue("@Username", txtUsuario.Text);
-                        cmd.Parameters.AddWithValue("@Contraseña", txtContraseña.Text);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                MessageBox.Show("Registro exitoso. Ahora puedes iniciar sesión.");
-                Login formLogin = new Login();
-                this.Hide();
-                formLogin.Show();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al guardar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             //ingreso de datos a la clase

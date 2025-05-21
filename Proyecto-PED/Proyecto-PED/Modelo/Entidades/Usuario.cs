@@ -135,7 +135,7 @@ namespace Proyecto_PED.Modelo.Entidades
         public Genero Genero { get; set; }
         public NivelActividad Nivel_Actividad { get; set; }
         public Objetivo Objetivo { get; set; }
-        public EstadoFisico EstadoFisico { get; set; }
+        public EstadoFisicoUsuario EstadoFisicoUsuario { get; set; }
 
         //constructor
         public Usuario()
@@ -177,7 +177,7 @@ namespace Proyecto_PED.Modelo.Entidades
         Ganar_musculo,
         Definicion_muscular
     }
-    public enum EstadoFisico
+    public enum EstadoFisicoUsuario
     {
         Delgado,
         Normal,
