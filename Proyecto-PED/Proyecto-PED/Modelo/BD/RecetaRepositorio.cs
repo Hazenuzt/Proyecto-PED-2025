@@ -71,7 +71,7 @@ namespace Proyecto_PED.Modelo.BD
                         {
                             while (readerIngredientes.Read())
                             {
-                                int idAlimento= (int)readerIngredientes["ID_Ingrediente"];
+                                int idAlimento= (int)readerIngredientes["ID_Alimento"];
                                 receta.IDsIngredientes.Add(idAlimento);
                             }
                         } // El reader se cierra automáticamente al salir del using
