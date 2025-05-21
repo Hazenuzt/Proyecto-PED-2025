@@ -10,6 +10,7 @@ namespace Proyecto_PED.Modelo.Entidades
     {
         public int ID_Receta { get; set; }
         public string NombreReceta { get; set; }
+        public string Descripcion { get; set; }
         public List<int> IDsIngredientes { get; set; }
         public double CaloriasTotales { get; set; }
 

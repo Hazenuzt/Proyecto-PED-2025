@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Proyecto_PED.Modelo.LogicaNegocio;
 using Proyecto_PED.Modelo.Entidades;
+using Proyecto_PED.Modelo.BD;
 
 namespace Proyecto_PED.Vista
 {   

@@ -59,6 +59,7 @@ namespace Proyecto_PED.Modelo.BD
 
             using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
+                conn.Open();
                 string query = "SELECT * FROM Usuario";// Consulta SQL para obtener todos los usuarios
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataReader reader = cmd.ExecuteReader();
