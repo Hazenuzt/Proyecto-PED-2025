@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Proyecto_PED.Modelo.Entidades;
+using Proyecto_PED.Modelo.LogicaNegocio;
+using Proyecto_PED.Modelo.BD;
+using System.Data.SqlClient;
 
 namespace Proyecto_PED.Vista
 {
@@ -19,12 +22,65 @@ namespace Proyecto_PED.Vista
             InitializeComponent();
         }
 
-        private void btnSiguiente_Click(object sender, EventArgs e)
+        private void btnSiguiente_Click(object sender, EventArgs e) //boton finalizado
         {
-            Preferencias formAlimentosPreferencia = new Preferencias();
-            this.Hide();
-            formAlimentosPreferencia.Show();
-            
+            ArbolDecision arbol = new ArbolDecision();
+            arbol.EvaluarUsuario(DatosGlobales.usua);
+            MessageBox.Show(DatosGlobales.usua.Debug()); //muestra lo guardado por el usuario
+
+            try
+            {
+                using (SqlConnection conn = new ConexionBD().ObtenerConexion())
+                {
+                    conn.Open();
+                    string query = @"
+                INSERT INTO Usuario (
+                    nombre, apellido, edad, estatura, peso, 
+                    username, password, cantCalorias, 
+                    Genero, Nivel_Actividad, Objetivo, EstadoFisico
+                ) VALUES (
+                    @Nombre, @Apellido, @Edad, @Estatura, @Peso, 
+                    @Username, @Password, @CantCalorias, 
+                    @Genero, @NivelActividad, @Objetivo, @EstadoFisico
+                )";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        // Asignar parámetros con los valores del usuario global
+                        cmd.Parameters.AddWithValue("@Nombre", DatosGlobales.usua.Nombre);
+                        cmd.Parameters.AddWithValue("@Apellido", DatosGlobales.usua.Apellido);
+                        cmd.Parameters.AddWithValue("@Edad", DatosGlobales.usua.Edad);
+                        cmd.Parameters.AddWithValue("@Estatura", DatosGlobales.usua.Estatura);
+                        cmd.Parameters.AddWithValue("@Peso", DatosGlobales.usua.Peso);
+                        cmd.Parameters.AddWithValue("@Username", DatosGlobales.usua.Username);
+                        cmd.Parameters.AddWithValue("@Password", DatosGlobales.usua.Password);
+                        cmd.Parameters.AddWithValue("@CantCalorias", DatosGlobales.usua.CantCalorias);
+                        cmd.Parameters.AddWithValue("@Genero", DatosGlobales.usua.Genero.ToString());
+                        cmd.Parameters.AddWithValue("@NivelActividad", DatosGlobales.usua.Nivel_Actividad.ToString());
+                        cmd.Parameters.AddWithValue("@Objetivo", DatosGlobales.usua.Objetivo.ToString());
+                        cmd.Parameters.AddWithValue("@EstadoFisico", DatosGlobales.usua.EstadoFisicoUsuario.ToString());
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Usuario registrado correctamente!", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Login formInicio = new Login();
+                            this.Hide();
+                            formInicio.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo registrar el usuario.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al registrar el usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {

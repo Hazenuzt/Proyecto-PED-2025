@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Controlador\Controlador.cs" />
     <Compile Include="Modelo\BD\DBComidas.cs" />
+    <Compile Include="Modelo\BD\UsuarioRepositorio.cs" />
     <Compile Include="Modelo\LogicaNegocio\ArbolDecision.cs" />
     <Compile Include="Modelo\BD\ConexionBD.cs" />
     <Compile Include="Modelo\Entidades\Alimento.cs" />
@@ -81,7 +82,6 @@
     <Compile Include="Modelo\LogicaNegocio\TablaHash.cs" />
     <Compile Include="Modelo\LogicaNegocio\NodoArbol.cs" />
     <Compile Include="Modelo\Entidades\Usuario.cs" />
-    <Compile Include="Modelo\BD\UsuarioRepositorio.cs" />
     <Compile Include="Modelo\BD\ValidacionUsuario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,12 +114,6 @@
     </Compile>
     <Compile Include="Vista\ObjetivoCumplir.Designer.cs">
       <DependentUpon>ObjetivoCumplir.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Vista\Preferencias.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Vista\Preferencias.Designer.cs">
-      <DependentUpon>Preferencias.cs</DependentUpon>
     </Compile>
     <Compile Include="Vista\PlanesComida.cs">
       <SubType>Form</SubType>
@@ -157,9 +151,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\ObjetivoCumplir.resx">
       <DependentUpon>ObjetivoCumplir.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Vista\Preferencias.resx">
-      <DependentUpon>Preferencias.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\PlanesComida.resx">
       <DependentUpon>PlanesComida.cs</DependentUpon>

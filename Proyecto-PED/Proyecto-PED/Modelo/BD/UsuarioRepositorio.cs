@@ -1,114 +1,74 @@
-﻿using System;
+﻿using Proyecto_PED.Modelo.Entidades;
+using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Proyecto_PED.Modelo.Entidades;
-using System.Data.SqlClient;
 
 namespace Proyecto_PED.Modelo.BD
 {
     internal class UsuarioRepositorio
     {
-        private List<Usuario> _usuarios;
-
-        public UsuarioRepositorio()
+        public Usuario ValidarYObtenerUsuario(string username, string password)
         {
-            _usuarios = RecuperarUsuariosDesdeBD();
-        }
+            Usuario usuarioEncontrado = null; // Inicializamos a null
 
-        // Guarda la lista de usuarios en la base de datos
-        public void GuardarUsuariosEnArchivo(List<Usuario> usuarios, string _)
-        {
-            using (SqlConnection conn = new ConexionBD().ObtenerConexion())  // Establecemos conexión a la base de datos
+            try
             {
-                foreach (var usuario in usuarios)
+                using (SqlConnection conn = new ConexionBD().ObtenerConexion())
                 {
-                    // Consulta SQL para insertar un nuevo usuario
-                    string query = @"INSERT INTO Usuario 
-                (Nombre, Apellido, Edad, Estatura, Peso, Username, Contraseña, CantCalorias) 
-                VALUES (@Nombre, @Apellido, @Edad, @Estatura, @Peso, @Username, @Password, @CantCalorias)";
-
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
-                    cmd.Parameters.AddWithValue("@Apellido", usuario.Apellido);
-                    cmd.Parameters.AddWithValue("@Edad", usuario.Edad);
-                    cmd.Parameters.AddWithValue("@Estatura", usuario.Estatura);
-                    cmd.Parameters.AddWithValue("@Peso", usuario.Peso);
-                    cmd.Parameters.AddWithValue("@Username", usuario.Username);
-                    cmd.Parameters.AddWithValue("@Password", usuario.Password);
-                    cmd.Parameters.AddWithValue("@CantCalorias", usuario.CantCalorias);
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
-        // Recupera la lista de usuarios desde la base de datos
-        // Aunque el parámetro rutaArchivo sigue presente, no se usa
-        public List<Usuario> RecuperarUsuariosDesdeArchivo(string _)
-        {
-            return RecuperarUsuariosDesdeBD(); // Reutilizamos el método privado
-        }
-
-        // Método  que se encarga de obtener los usuarios desde la tabla Usuario
-        private List<Usuario> RecuperarUsuariosDesdeBD()
-        {
-            List<Usuario> usuarios = new List<Usuario>();
-
-            using (SqlConnection conn = new ConexionBD().ObtenerConexion())
-            {
-                conn.Open();
-                string query = "SELECT * FROM Usuario";// Consulta SQL para obtener todos los usuarios
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    Usuario usuario = new Usuario
+                    conn.Open(); // Abre la conexión
+                    string query = @"SELECT * FROM Usuario WHERE Username = @Username AND Password = @Password";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        Id_Usuario = (int)reader["Id_Usuario"],
-                        Nombre = reader["Nombre"].ToString(),
-                        Apellido = reader["Apellido"].ToString(),
-                        Edad = (int)reader["Edad"],
-                        Estatura = Convert.ToDouble(reader["Estatura"]),
-                        Peso = Convert.ToDouble(reader["Peso"]),
-                        Username = reader["Username"].ToString(),
-                        Password = reader["Contraseña"].ToString()
-                    };
+                        cmd.Parameters.AddWithValue("@Username", username);
+                        cmd.Parameters.AddWithValue("@Password", password);
 
-                    usuarios.Add(usuario);
-                }
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Si se encuentra un usuario, poblamos el objeto Usuario
+                                usuarioEncontrado = new Usuario
+                                {
+                                    Id_Usuario = Convert.ToInt32(reader["ID_Usuario"]),
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Apellido = reader["Apellido"].ToString(),
+                                    Edad = Convert.ToInt32(reader["Edad"]),
+                                    Estatura = Convert.ToDouble(reader["Estatura"]),
+                                    Peso = Convert.ToDouble(reader["Peso"]),
+                                    Username = reader["Username"].ToString(),
+                                    Password = reader["Password"].ToString(),
+                                    // Manejo de valores DBNull para CantCalorias
+                                    CantCalorias = reader["CantCalorias"] != DBNull.Value ? Convert.ToDouble(reader["CantCalorias"]) : 0.0,
+                                    // Conversión de strings a Enums
+                                    Genero = (Genero)Enum.Parse(typeof(Genero), reader["Genero"].ToString()),
+                                    Nivel_Actividad = (NivelActividad)Enum.Parse(typeof(NivelActividad), reader["Nivel_Actividad"].ToString()),
+                                    Objetivo = (Objetivo)Enum.Parse(typeof(Objetivo), reader["Objetivo"].ToString()),
+                                    EstadoFisicoUsuario = (EstadoFisicoUsuario)Enum.Parse(typeof(EstadoFisicoUsuario), reader["EstadoFisico"].ToString())
+                                };
+                            }
+                        } // El SqlDataReader se cierra aquí
+                    }
+                } // La SqlConnection se cierra aquí
             }
-
-            return usuarios;
-        }
-
-
-
-        /* public UsuarioRepositorio()
-         {
-             // Datos de ejemplo para usuarios con solo su nombre y cantidad de calorias
-             _usuarios = new List<Usuario>
-         {
-             new Usuario("JuanPerez", 2200.0),
-             new Usuario("MariaLopez", 1800.0),
-             new Usuario("AdminUser",  2500.0) 
-         };
-         }*/
-
-        /// <summary>
-        /// Intenta obtener un usuario por su nombre de usuario (o ID).
-        /// En la clase final debe ser con consultas a la BD
-        /// y posiblemente verificación de contraseña.
-        /// </summary>
-        /// <param name="nombreUsuario">El nombre de usuario para buscar.</param>
-        /// <returns>El objeto Usuario si se encuentra, de lo contrario null.</returns>
-        public Usuario ObtenerUsuarioPorNombreUsuario(string nombreUsuario)
-        {
-            
-            return _usuarios.FirstOrDefault(u => u.Nombre.Equals(nombreUsuario, System.StringComparison.OrdinalIgnoreCase));
+            catch (SqlException sqlex)
+            {
+                // Este catch es para errores específicos de SQL (ej. conexión fallida)
+                // Es bueno loggear esto o lanzarlo a una capa superior si es un error irrecuperable
+                Console.WriteLine($"Error de SQL en ValidarYObtenerUsuario: {sqlex.Message}");
+                // No lanzamos MessageBox aquí, la capa de UI se encarga de la presentación al usuario.
+                usuarioEncontrado = null; // Asegura que si hay error de DB, devuelve null
+            }
+            catch (Exception ex)
+            {
+                // Este catch es para cualquier otro tipo de error (ej. conversión de tipo)
+                Console.WriteLine($"Error general en ValidarYObtenerUsuario: {ex.Message}");
+                usuarioEncontrado = null; // Asegura que si hay error, devuelve null
+            }
+            return usuarioEncontrado;
         }
     }
 }
+

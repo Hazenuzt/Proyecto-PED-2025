@@ -19,58 +19,57 @@ namespace Proyecto_PED.Vista
 	{
 		private ControladorLogin login = new ControladorLogin();
         
-        private UsuarioRepositorio _usuarioRepositorio;
-        private string connectionString = "Data Source=localhost;Initial Catalog=PlanEatDB;Integrated Security=True"; //cadena de conexion 
         public Login()
 		{
 			InitializeComponent();
-			_usuarioRepositorio = new UsuarioRepositorio();	//Inicializando la instancia del repo,para usar sus metodos para recibir los users
 		}
 
-		private void btningresar_Click(object sender, EventArgs e)
-		{
-            string usuario = txtUsuario.Text;
-            string contra = txtContraseña.Text;
+        private void btningresar_Click(object sender, EventArgs e)
+        {
+            string usuario = txtUsuario.Text.Trim();
+            string contra = txtContraseña.Text.Trim();
+
+            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contra))
+            {
+                MessageBox.Show("Usuario y contraseña son obligatorios");
+                return;
+            }
+            Usuario usuarioLogueado = null; // Declaramos aquí para que esté disponible en todo el método click
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string query = "SELECT COUNT(1) FROM Usuario WHERE Username = @Username AND Contraseña = @Contraseña";
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@Username", usuario);
-                        cmd.Parameters.AddWithValue("@Contraseña", contra);
-                        int count = (int)cmd.ExecuteScalar();
-
-                        if (count > 0)
-                        {
-                            MessageBox.Show("Inicio de sesión exitoso");
-                            Usuario usuarioo=_usuarioRepositorio.ObtenerUsuarioPorNombreUsuario(usuario);
-                            // Assuming PaginaPrincipal needs the user data
-                            PaginaPrincipal mainForm = new PaginaPrincipal(usuarioo);
-                            mainForm.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Usuario o contraseña no válido, inténtelo nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            txtContraseña.Clear();
-                            txtUsuario.Clear();
-                            txtUsuario.Focus();
-                        }
-                    }
-                }
+                // La llamada al controlador ahora envuelve toda la lógica de DB
+                usuarioLogueado = login.InicioSesion(usuario, contra);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al iniciar sesión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Este catch captura errores que *escapen* del controlador,
+                // por ejemplo, si el ControladorLogin o UsuarioDAO lanzan una excepción.
+                MessageBox.Show($"Ocurrió un error inesperado al intentar iniciar sesión: {ex.Message}", "Error del Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Importante: si hay un error en la DB, no continúes
             }
 
+            // A PARTIR DE AQUÍ, TODA LA INTERACCIÓN CON LA BASE DE DATOS YA HA TERMINADO.
+            // La conexión ya ha sido cerrada por el 'using' en UsuarioDAO.
+            // Ahora, solo nos preocupamos por la lógica de la UI.
+
+            if (usuarioLogueado != null)
+            {
+                MessageBox.Show("Inicio de sesión exitoso", "Bienvenido", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                PaginaPrincipal mainForm = new PaginaPrincipal(usuarioLogueado);
+                mainForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                // Si usuarioLogueado es null, significa que las credenciales son incorrectas
+                // o hubo un problema en la DB (manejado internamente por UsuarioDAO que devuelve null)
+                MessageBox.Show("Credenciales incorrectas. Por favor, verifica tu usuario y contraseña.", "Error de Inicio de Sesión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-		private void btnregistrarme_Click(object sender, EventArgs e)
+        private void btnregistrarme_Click(object sender, EventArgs e)
 		{
 			RegistroUsuario formRegistro = new RegistroUsuario();
 			this.Hide();

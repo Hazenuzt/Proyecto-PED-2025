@@ -62,12 +62,13 @@ namespace Proyecto_PED.Modelo.LogicaNegocio
             }
         }
 
+        
         private List<Alimento> ObtenerAlimentosCandidatosPorMomento(string momentoDia)
         {
-            return _gestorDeAlimentos.ObtenerTodosLosAlimentos()
-                .Where(a => a.EsApropiadoPara(momentoDia))
-                .Where(a => a.CaloriasPorPorcion > 0)
-                .ToList();
+             return _gestorDeAlimentos.ObtenerTodosLosAlimentos()
+                  .Where(a => a.EsApropiadoPara(momentoDia))
+                  .Where(a => a.CaloriasPorPorcion > 0)
+                  .ToList(); 
         }
 
         private List<Alimento> GenerarPseudorecetaHeuristica(List<Alimento> alimentosCandidatos, double caloriasObjetivo, string momentoDia)

@@ -37,10 +37,10 @@ namespace Proyecto_PED.Vista
                 if (groupBox_Estado.Controls.Contains(selectedCheckBox))
                 {
                     DeselectOthers(selectedCheckBox, groupBox_Estado);
-                    if (checkBoxDelgado.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Delgado;
-                    else if (checkBoxNormal.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Normal;
-                    else if (checkBoxSobrePeso.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Sobrepeso;
-                    else if (checkBoxObesidad.Checked) DatosGlobales.usua.EstadoFisico = Modelo.Entidades.EstadoFisico.Obeso;
+                    if (checkBoxDelgado.Checked) DatosGlobales.usua.EstadoFisicoUsuario = Modelo.Entidades.EstadoFisicoUsuario.Delgado;
+                    else if (checkBoxNormal.Checked) DatosGlobales.usua.EstadoFisicoUsuario = Modelo.Entidades.EstadoFisicoUsuario.Normal;
+                    else if (checkBoxSobrePeso.Checked) DatosGlobales.usua.EstadoFisicoUsuario = Modelo.Entidades.EstadoFisicoUsuario.Sobrepeso;
+                    else if (checkBoxObesidad.Checked) DatosGlobales.usua.EstadoFisicoUsuario = Modelo.Entidades.EstadoFisicoUsuario.Obeso;
                 }
                 else if (groupBox_Actividad.Controls.Contains(selectedCheckBox))
                 {
