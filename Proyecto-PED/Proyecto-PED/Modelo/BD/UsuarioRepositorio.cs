@@ -75,8 +75,7 @@ namespace Proyecto_PED.Modelo.BD
                         Estatura = Convert.ToDouble(reader["Estatura"]),
                         Peso = Convert.ToDouble(reader["Peso"]),
                         Username = reader["Username"].ToString(),
-                        Password = reader["Contraseña"].ToString(),
-                        CantCalorias = Convert.ToDouble(reader["CantCalorias"])
+                        Password = reader["Contraseña"].ToString()
                     };
 
                     usuarios.Add(usuario);

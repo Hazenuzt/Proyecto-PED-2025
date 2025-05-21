@@ -57,7 +57,7 @@ namespace Proyecto_PED.Modelo.Entidades
                 {
                     throw new ArgumentNullException("El apellido no debe estar vacio");
                 }
-                nombre = value;
+                apellido = value;
             }
         }
 
