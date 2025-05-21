@@ -91,18 +91,7 @@ namespace Proyecto_PED.Modelo.BD
 
         public RecetaRepositorio()
         {
-            try
-            {
-                // Al crear el repositorio, cargamos las recetas desde la base de datos
-                _recetas = RecuperarRecetasDesdeBD();
-            }
-            catch (Exception ex)
-            {
-                // Inicializar con una lista vacía en caso de error
-                _recetas = new List<Receta>();
-                System.Diagnostics.Debug.WriteLine($"Error al inicializar RecetaRepositorio: {ex.Message}");
-                // Opcional: mostrar un mensaje al usuario o loguear el error
-            }
+            _recetas = RecuperarRecetasDesdeBD();
         }
 
         public List<Receta> ObtenerTodasLasRecetas()

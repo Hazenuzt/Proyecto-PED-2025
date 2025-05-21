@@ -37,6 +37,7 @@ namespace Proyecto_PED.Modelo.BD
                 ProteinasPorPorcion, CarbohidratosPorPorcion, GrasasPorPorcion,
                 UnidadMedidaBase, TamañoPorcionEstandarGramos, TipoAlimento, RolAlimento
                 FROM Alimento"; // Consulta SQL
+
                     SqlCommand cmd = new SqlCommand(query, conn);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -55,7 +56,9 @@ namespace Proyecto_PED.Modelo.BD
                                 TamañoPorcionEstandarGramos = reader["TamañoPorcionEstandarGramos"] != DBNull.Value
                                     ? Convert.ToDouble(reader["TamañoPorcionEstandarGramos"])
                                     : (double?)null,
-                                TipoAlimento = reader["TipoAlimento"].ToString()
+                                TipoAlimento = reader["TipoAlimento"].ToString(),
+                                RolAlimento = reader["RolAlimento"] != DBNull.Value
+                                 ? reader["RolAlimento"].ToString() : "Extras"
                             };
 
                             alimentos.Add(alimento);
@@ -75,18 +78,7 @@ namespace Proyecto_PED.Modelo.BD
 
         public AlimentoRepositorio()
         {
-            try
-            {
-                // Al instanciar el repositorio, cargamos los alimentos desde la base de datos
-                _alimentos = RecuperarAlimentosDesdeBD();
-            }
-            catch (Exception ex)
-            {
-                // Inicializar con una lista vacía en caso de error
-                _alimentos = new List<Alimento>();
-                System.Diagnostics.Debug.WriteLine($"Error al inicializar AlimentoRepositorio: {ex.Message}");
-                // Opcional: mostrar un mensaje al usuario o loguear el error
-            }
+            _alimentos = RecuperarAlimentosDesdeBD();
         }
 
         public List<Alimento> ObtenerTodosLosAlimentos()
