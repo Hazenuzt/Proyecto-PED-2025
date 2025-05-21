@@ -42,6 +42,8 @@ namespace Proyecto_PED.Vista
             if (string.IsNullOrWhiteSpace(txtPeso.Text)) camposFaltantes.Add("Peso");
             if (string.IsNullOrWhiteSpace(txtEdad.Text)) camposFaltantes.Add("Edad");
             if (!checkBox_F.Checked && !checkBox_M.Checked) camposFaltantes.Add("Género");
+            if (string.IsNullOrWhiteSpace(txtUsuario.Text)) camposFaltantes.Add("Username");
+            if (string.IsNullOrWhiteSpace(txtContraseña.Text)) camposFaltantes.Add("Password");
 
             // Si hay campos faltantes mostrara mensaje 
             if (camposFaltantes.Count > 0)
@@ -57,6 +59,8 @@ namespace Proyecto_PED.Vista
             DatosGlobales.usua.Edad = int.Parse(txtEdad.Text);
             DatosGlobales.usua.Estatura = double.Parse(txtEstatura.Text);
             DatosGlobales.usua.Peso = double.Parse(txtPeso.Text);
+            DatosGlobales.usua.Username = txtUsuario.Text;
+            DatosGlobales.usua.Password = txtContraseña.Text;
 
             EstadoFisico formEstadoActual = new EstadoFisico();
 			this.Hide();

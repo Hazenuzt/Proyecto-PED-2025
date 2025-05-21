@@ -505,7 +505,7 @@ INSERT INTO RecetaIngrediente (ID_Receta, ID_Alimento) VALUES
 GO
 
 INSERT INTO Usuario VALUES
-('Juan', 'Perez', 21, 185, 85, 'JuanPi', 'juanperez', null, 'Masculino', 'Actividad_ligera', 'Perder_grasa', 'Normal' )
+('Juan', 'Perez', 21, 185, 85, 'JuanPi', 'juanperez', 22200, 'Masculino', 'Actividad_ligera', 'Perder_grasa', 'Normal' )
 go
 
 select * from Alimento

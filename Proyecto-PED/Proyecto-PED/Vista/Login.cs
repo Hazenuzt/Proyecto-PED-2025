@@ -24,64 +24,55 @@ namespace Proyecto_PED.Vista
 			InitializeComponent();
 		}
 
-		private void btningresar_Click(object sender, EventArgs e)
-		{
-            ConexionBD cadenita = new ConexionBD();
-            string usuario = txtUsuario.Text;
-            string contra = txtContraseña.Text;
+        private void btningresar_Click(object sender, EventArgs e)
+        {
+            string usuario = txtUsuario.Text.Trim();
+            string contra = txtContraseña.Text.Trim();
+
+            if (string.IsNullOrEmpty(usuario) || string.IsNullOrEmpty(contra))
+            {
+                MessageBox.Show("Usuario y contraseña son obligatorios");
+                return;
+            }
 
             try
             {
-                using (SqlConnection conn = cadenita.ObtenerConexion())
+                using (SqlConnection conn = new ConexionBD().ObtenerConexion())
                 {
                     conn.Open();
-                    string query = @"SELECT id_usuario, nombre, apellido, edad, estatura, peso, 
-                           username, password, cantCalorias, Genero, Nivel_Actividad, 
-                           Objetivo, EstadoFisico 
-                           FROM Usuario 
-                           WHERE Username = @Username AND password = @Contraseña"
-;
+                    string query = @"SELECT * FROM Usuario WHERE Username = @Username AND Password = @Password";
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@Username", usuario);
-                        cmd.Parameters.AddWithValue("@Contraseña", contra);
-
+                        cmd.Parameters.AddWithValue("@Password", contra);
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                // Creamos y configuramos el objeto Usuario con todos los datos
                                 Usuario usuarioLogueado = new Usuario
                                 {
-                                    Id_Usuario = reader.GetInt32(reader.GetOrdinal("id_usuario")),
-                                    Nombre = reader.GetString(reader.GetOrdinal("nombre")),
-                                    Apellido = reader.GetString(reader.GetOrdinal("apellido")),
-                                    Edad = reader.GetInt32(reader.GetOrdinal("edad")),
-                                    Estatura = reader.GetDouble(reader.GetOrdinal("estatura")),
-                                    Peso = reader.GetDouble(reader.GetOrdinal("peso")),
-                                    Username = reader.GetString(reader.GetOrdinal("username")),
-                                    Password = reader.GetString(reader.GetOrdinal("password")),
-                                    CantCalorias = !reader.IsDBNull(reader.GetOrdinal("cantCalorias")) ? reader.GetDouble(reader.GetOrdinal("cantCalorias")) : 0.0,
-                                    Genero = (Genero)Enum.Parse(typeof(Genero), reader.GetString(reader.GetOrdinal("Genero"))),
-                                    Nivel_Actividad = (NivelActividad)Enum.Parse(typeof(NivelActividad), reader.GetString(reader.GetOrdinal("Nivel_Actividad"))),
-                                    Objetivo = (Objetivo)Enum.Parse(typeof(Objetivo), reader.GetString(reader.GetOrdinal("Objetivo"))),
-                                    EstadoFisicoUsuario = (EstadoFisicoUsuario)Enum.Parse(typeof(EstadoFisicoUsuario), reader.GetString(reader.GetOrdinal("EstadoFisico")))
+                                    Id_Usuario = Convert.ToInt32(reader["ID_Usuario"]),
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Apellido = reader["Apellido"].ToString(),
+                                    Edad = Convert.ToInt32(reader["Edad"]),
+                                    Estatura = Convert.ToDouble(reader["Estatura"]),
+                                    Peso = Convert.ToDouble(reader["Peso"]),
+                                    Username = reader["Username"].ToString(),
+                                    Password = reader["Password"].ToString(),
+                                    CantCalorias = reader["CantCalorias"] != DBNull.Value ? Convert.ToDouble(reader["CantCalorias"]) : 0.0,
+                                    Genero = (Genero)Enum.Parse(typeof(Genero), reader["Genero"].ToString()),
+                                    Nivel_Actividad = (NivelActividad)Enum.Parse(typeof(NivelActividad), reader["Nivel_Actividad"].ToString()),
+                                    Objetivo = (Objetivo)Enum.Parse(typeof(Objetivo), reader["Objetivo"].ToString()),
+                                    EstadoFisicoUsuario = (EstadoFisicoUsuario)Enum.Parse(typeof(EstadoFisicoUsuario), reader["EstadoFisico"].ToString())
                                 };
-
                                 MessageBox.Show("Inicio de sesión exitoso");
-                                // Assuming PaginaPrincipal needs the user data
                                 PaginaPrincipal mainForm = new PaginaPrincipal(usuarioLogueado);
                                 mainForm.Show();
                                 this.Hide();
                             }
-
-
                             else
                             {
-                                MessageBox.Show("Usuario o contraseña no válido, inténtelo nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                txtContraseña.Clear();
-                                txtUsuario.Clear();
-                                txtUsuario.Focus();
+                                MessageBox.Show("Credenciales incorrectas");
                             }
                         }
                     }
@@ -89,12 +80,11 @@ namespace Proyecto_PED.Vista
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al iniciar sesión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error: {ex.Message}");
             }
-
         }
 
-		private void btnregistrarme_Click(object sender, EventArgs e)
+        private void btnregistrarme_Click(object sender, EventArgs e)
 		{
 			RegistroUsuario formRegistro = new RegistroUsuario();
 			this.Hide();
