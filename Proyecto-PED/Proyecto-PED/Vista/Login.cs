@@ -19,11 +19,9 @@ namespace Proyecto_PED.Vista
 	{
 		private ControladorLogin login = new ControladorLogin();
         
-        private UsuarioRepositorio _usuarioRepositorio;
         public Login()
 		{
 			InitializeComponent();
-			_usuarioRepositorio = new UsuarioRepositorio();	//Inicializando la instancia del repo,para usar sus metodos para recibir los users
 		}
 
 		private void btningresar_Click(object sender, EventArgs e)
@@ -63,7 +61,7 @@ namespace Proyecto_PED.Vista
                                     Peso = reader.GetDouble(reader.GetOrdinal("peso")),
                                     Username = reader.GetString(reader.GetOrdinal("username")),
                                     Password = reader.GetString(reader.GetOrdinal("password")),
-                                    CantCalorias = reader.GetDouble(reader.GetOrdinal("cantCalorias")),
+                                    CantCalorias = !reader.IsDBNull(reader.GetOrdinal("cantCalorias")) ? reader.GetDouble(reader.GetOrdinal("cantCalorias")) : 0.0,
                                     Genero = (Genero)Enum.Parse(typeof(Genero), reader.GetString(reader.GetOrdinal("Genero"))),
                                     Nivel_Actividad = (NivelActividad)Enum.Parse(typeof(NivelActividad), reader.GetString(reader.GetOrdinal("Nivel_Actividad"))),
                                     Objetivo = (Objetivo)Enum.Parse(typeof(Objetivo), reader.GetString(reader.GetOrdinal("Objetivo"))),

@@ -81,7 +81,6 @@
     <Compile Include="Modelo\LogicaNegocio\TablaHash.cs" />
     <Compile Include="Modelo\LogicaNegocio\NodoArbol.cs" />
     <Compile Include="Modelo\Entidades\Usuario.cs" />
-    <Compile Include="Modelo\BD\UsuarioRepositorio.cs" />
     <Compile Include="Modelo\BD\ValidacionUsuario.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
