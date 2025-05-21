@@ -71,11 +71,11 @@ namespace Proyecto_PED.Vista
 
             if (_usuarioActual != null)
             {
-                lblAltura.Text = _usuarioActual.Estatura.ToString();
-                lblPeso.Text = _usuarioActual.Peso.ToString();
+                lblAltura.Text = _usuarioActual.Estatura.ToString() + " metros";
+                lblPeso.Text = _usuarioActual.Peso.ToString()+ " kg";
                 lblActFisica.Text = _usuarioActual.Nivel_Actividad.ToString();
                 lblObjetivos.Text = _usuarioActual.Objetivo.ToString();
-                LblIMC.Text = _usuarioActual.imcCalcular().ToString();//lo del imc 
+                LblIMC.Text = _usuarioActual.imcCalcular().ToString() ;//lo del imc 
             }
             else
             {

@@ -45,7 +45,9 @@
             this.lblActFisica = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.lblObjetivos = new System.Windows.Forms.Label();
+            this.gbxinfodeusuario = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.gbxinfodeusuario.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -65,7 +67,7 @@
             this.lblNombreBienvenida.AutoSize = true;
             this.lblNombreBienvenida.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(181)))), ((int)(((byte)(80)))));
             this.lblNombreBienvenida.Font = new System.Drawing.Font("Mongolian Baiti", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombreBienvenida.Location = new System.Drawing.Point(266, 52);
+            this.lblNombreBienvenida.Location = new System.Drawing.Point(303, 51);
             this.lblNombreBienvenida.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNombreBienvenida.Name = "lblNombreBienvenida";
             this.lblNombreBienvenida.Size = new System.Drawing.Size(123, 43);
@@ -75,55 +77,55 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(127, 279);
+            this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(146, 60);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(89, 31);
+            this.label3.Size = new System.Drawing.Size(96, 31);
             this.label3.TabIndex = 0;
             this.label3.Text = "Altura:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(141, 372);
+            this.label4.Font = new System.Drawing.Font("Microsoft YaHei", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(160, 153);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 31);
+            this.label4.Size = new System.Drawing.Size(79, 31);
             this.label4.TabIndex = 1;
             this.label4.Text = "Peso:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(152, 474);
+            this.label5.Font = new System.Drawing.Font("Microsoft YaHei", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(171, 255);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(66, 31);
+            this.label5.Size = new System.Drawing.Size(70, 31);
             this.label5.TabIndex = 2;
             this.label5.Text = "IMC:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(15, 569);
+            this.label6.Font = new System.Drawing.Font("Microsoft YaHei", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(34, 350);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(189, 31);
+            this.label6.Size = new System.Drawing.Size(204, 31);
             this.label6.TabIndex = 3;
             this.label6.Text = "Actividad fisica:";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(71, 668);
+            this.label7.Font = new System.Drawing.Font("Microsoft YaHei", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(90, 449);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(131, 31);
+            this.label7.Size = new System.Drawing.Size(140, 31);
             this.label7.TabIndex = 4;
             this.label7.Text = "objetivos: ";
             // 
@@ -170,7 +172,8 @@
             // 
             this.lblAltura.AutoSize = true;
             this.lblAltura.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAltura.Location = new System.Drawing.Point(252, 281);
+            this.lblAltura.ForeColor = System.Drawing.Color.White;
+            this.lblAltura.Location = new System.Drawing.Point(271, 62);
             this.lblAltura.Name = "lblAltura";
             this.lblAltura.Size = new System.Drawing.Size(73, 27);
             this.lblAltura.TabIndex = 24;
@@ -181,7 +184,8 @@
             // 
             this.lblPeso.AutoSize = true;
             this.lblPeso.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPeso.Location = new System.Drawing.Point(252, 378);
+            this.lblPeso.ForeColor = System.Drawing.Color.White;
+            this.lblPeso.Location = new System.Drawing.Point(271, 159);
             this.lblPeso.Name = "lblPeso";
             this.lblPeso.Size = new System.Drawing.Size(73, 27);
             this.lblPeso.TabIndex = 25;
@@ -191,7 +195,8 @@
             // 
             this.LblIMC.AutoSize = true;
             this.LblIMC.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblIMC.Location = new System.Drawing.Point(252, 479);
+            this.LblIMC.ForeColor = System.Drawing.Color.White;
+            this.LblIMC.Location = new System.Drawing.Point(271, 260);
             this.LblIMC.Name = "LblIMC";
             this.LblIMC.Size = new System.Drawing.Size(73, 27);
             this.LblIMC.TabIndex = 25;
@@ -201,7 +206,8 @@
             // 
             this.lblActFisica.AutoSize = true;
             this.lblActFisica.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblActFisica.Location = new System.Drawing.Point(252, 569);
+            this.lblActFisica.ForeColor = System.Drawing.Color.White;
+            this.lblActFisica.Location = new System.Drawing.Point(271, 350);
             this.lblActFisica.Name = "lblActFisica";
             this.lblActFisica.Size = new System.Drawing.Size(85, 27);
             this.lblActFisica.TabIndex = 26;
@@ -223,11 +229,33 @@
             // 
             this.lblObjetivos.AutoSize = true;
             this.lblObjetivos.Font = new System.Drawing.Font("Microsoft YaHei", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblObjetivos.Location = new System.Drawing.Point(252, 671);
+            this.lblObjetivos.ForeColor = System.Drawing.Color.White;
+            this.lblObjetivos.Location = new System.Drawing.Point(271, 452);
             this.lblObjetivos.Name = "lblObjetivos";
             this.lblObjetivos.Size = new System.Drawing.Size(85, 27);
             this.lblObjetivos.TabIndex = 29;
             this.lblObjetivos.Text = "label11";
+            // 
+            // gbxinfodeusuario
+            // 
+            this.gbxinfodeusuario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(168)))), ((int)(((byte)(131)))));
+            this.gbxinfodeusuario.Controls.Add(this.lblObjetivos);
+            this.gbxinfodeusuario.Controls.Add(this.label3);
+            this.gbxinfodeusuario.Controls.Add(this.label4);
+            this.gbxinfodeusuario.Controls.Add(this.lblActFisica);
+            this.gbxinfodeusuario.Controls.Add(this.label5);
+            this.gbxinfodeusuario.Controls.Add(this.LblIMC);
+            this.gbxinfodeusuario.Controls.Add(this.label6);
+            this.gbxinfodeusuario.Controls.Add(this.lblPeso);
+            this.gbxinfodeusuario.Controls.Add(this.label7);
+            this.gbxinfodeusuario.Controls.Add(this.lblAltura);
+            this.gbxinfodeusuario.Font = new System.Drawing.Font("Microsoft YaHei", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbxinfodeusuario.Location = new System.Drawing.Point(28, 200);
+            this.gbxinfodeusuario.Name = "gbxinfodeusuario";
+            this.gbxinfodeusuario.Size = new System.Drawing.Size(729, 589);
+            this.gbxinfodeusuario.TabIndex = 30;
+            this.gbxinfodeusuario.TabStop = false;
+            this.gbxinfodeusuario.Text = "Tu informacion";
             // 
             // PaginaPrincipal
             // 
@@ -237,22 +265,13 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1468, 952);
-            this.Controls.Add(this.lblObjetivos);
+            this.Controls.Add(this.gbxinfodeusuario);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.lblActFisica);
-            this.Controls.Add(this.LblIMC);
-            this.Controls.Add(this.lblPeso);
-            this.Controls.Add(this.lblAltura);
             this.Controls.Add(this.btnAtras);
             this.Controls.Add(this.btn_VerPlan);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.lblNombreBienvenida);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
             this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "PaginaPrincipal";
@@ -260,6 +279,8 @@
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.PaginaPrincipal_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.gbxinfodeusuario.ResumeLayout(false);
+            this.gbxinfodeusuario.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,5 +304,6 @@
         private System.Windows.Forms.Label lblActFisica;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label lblObjetivos;
+        private System.Windows.Forms.GroupBox gbxinfodeusuario;
     }
 }
