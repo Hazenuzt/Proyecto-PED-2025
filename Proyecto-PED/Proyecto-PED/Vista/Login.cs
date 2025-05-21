@@ -11,6 +11,7 @@ using Proyecto_PED.Controlador;
 using Proyecto_PED.Modelo;
 using Proyecto_PED.Modelo.Entidades;
 using Proyecto_PED.Modelo.BD;
+using System.Data.SqlClient;
 
 namespace Proyecto_PED.Vista
 {
@@ -19,7 +20,7 @@ namespace Proyecto_PED.Vista
 		private ControladorLogin login = new ControladorLogin();
         
         private UsuarioRepositorio _usuarioRepositorio;
-		//l
+        private string connectionString = "Data Source=localhost;Initial Catalog=PlanEatDB;Integrated Security=True"; //cadena de conexion 
         public Login()
 		{
 			InitializeComponent();
@@ -28,38 +29,43 @@ namespace Proyecto_PED.Vista
 
 		private void btningresar_Click(object sender, EventArgs e)
 		{
-			string usuario = txtUsuario.Text;
-			string contra = txtContraseña.Text;
+            string usuario = txtUsuario.Text;
+            string contra = txtContraseña.Text;
 
-			try
-			{
-				if (login.InicioSesion(usuario, contra))
-				{
-					MessageBox.Show("Inicio de sesión exitoso");
-					Modelo.Entidades.Usuario usuarioValido = _usuarioRepositorio.ObtenerUsuarioPorNombreUsuario(usuario); //En realidad, aquí lo correcto sería llamarlo mediante su id, ya que pueden haber
-                                                                                                         //Más de un "juan".
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT COUNT(1) FROM Usuario WHERE Username = @Username AND Contraseña = @Contraseña";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", usuario);
+                        cmd.Parameters.AddWithValue("@Contraseña", contra);
+                        int count = (int)cmd.ExecuteScalar();
 
-                    PaginaPrincipal mainForm = new PaginaPrincipal(usuarioValido);
-                    mainForm.Show();
-                    this.Hide();
-					
-					
-				}
-				
-			}catch (Exception ex)
-			{
-				MessageBox.Show("Usuario o contraseña no válido, inténtelo nuevamente", ex.Message);
-				txtContraseña.Clear();
-				txtUsuario.Clear();
-				txtUsuario.Focus();
-			}
-
-            /*//del usuario al label
-             usuario = txtUsuario.Text; // toma el nombre del TextBox
-
-            PaginaPrincipal pagina = new PaginaPrincipal(usuario); // se lo pasa a Form2
-            pagina.Show(); // abre la nueva ventana
-            this.Hide(); // oculta el login*/
+                        if (count > 0)
+                        {
+                            MessageBox.Show("Inicio de sesión exitoso");
+                            // Assuming PaginaPrincipal needs the user data
+                            PaginaPrincipal mainForm = new PaginaPrincipal(usuario);
+                            mainForm.Show();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Usuario o contraseña no válido, inténtelo nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            txtContraseña.Clear();
+                            txtUsuario.Clear();
+                            txtUsuario.Focus();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al iniciar sesión: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
