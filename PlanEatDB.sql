@@ -524,4 +524,3 @@ select * from Receta
 select * from RecetaIngrediente
 select * from Usuario
 go
-
