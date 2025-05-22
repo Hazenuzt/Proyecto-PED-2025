@@ -44,7 +44,7 @@ namespace Proyecto_PED.Vista
             ConfigurarDataGridView();
 
             // Genera recetas si es primera vez logeado, sino carga las recetas que generó en la vez anterior
-            CargarRecetasOGenerar();
+            GenerarYMostrarRecetas();
         }
 
         private void ConfigurarDataGridView()
@@ -133,9 +133,11 @@ namespace Proyecto_PED.Vista
             }
 
             rtbResumenReceta.Text = resumenTexto;
-
+    
         }
 
+
+        // no se logró resolver un error
         private void CargarRecetasOGenerar()
         {
             int idUsuario = DatosGlobales.usua.Id_Usuario; //Id del usuario actual
