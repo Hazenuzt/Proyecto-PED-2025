@@ -33,38 +33,48 @@ namespace Proyecto_PED.Vista
 
 		private void btnSiguiente_Click(object sender, EventArgs e)
 		{
-            List<string> camposFaltantes = new List<string>();
-
-            // Verificar cada campo dentro del groupBox1
-            if (string.IsNullOrWhiteSpace(txtNombre.Text)) camposFaltantes.Add("Nombre");
-            if (string.IsNullOrWhiteSpace(txtApellido.Text)) camposFaltantes.Add("Apellido");
-            if (string.IsNullOrWhiteSpace(txtEstatura.Text)) camposFaltantes.Add("Estatura");
-            if (string.IsNullOrWhiteSpace(txtPeso.Text)) camposFaltantes.Add("Peso");
-            if (string.IsNullOrWhiteSpace(txtEdad.Text)) camposFaltantes.Add("Edad");
-            if (!checkBox_F.Checked && !checkBox_M.Checked) camposFaltantes.Add("Género");
-            if (string.IsNullOrWhiteSpace(txtUsuario.Text)) camposFaltantes.Add("Username");
-            if (string.IsNullOrWhiteSpace(txtContraseña.Text)) camposFaltantes.Add("Password");
-
-            // Si hay campos faltantes mostrara mensaje 
-            if (camposFaltantes.Count > 0)
+            try
             {
-                string mensaje = "Debe completar los siguientes campos:\n- " + string.Join("\n- ", camposFaltantes);
-                MessageBox.Show(mensaje, "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                List<string> camposFaltantes = new List<string>();
+
+                // Verificar cada campo dentro del groupBox1
+                if (string.IsNullOrWhiteSpace(txtNombre.Text)) camposFaltantes.Add("Nombre");
+                if (string.IsNullOrWhiteSpace(txtApellido.Text)) camposFaltantes.Add("Apellido");
+                if (string.IsNullOrWhiteSpace(txtEstatura.Text)) camposFaltantes.Add("Estatura");
+                if (string.IsNullOrWhiteSpace(txtPeso.Text)) camposFaltantes.Add("Peso");
+                if (string.IsNullOrWhiteSpace(txtEdad.Text)) camposFaltantes.Add("Edad");
+                if (!checkBox_F.Checked && !checkBox_M.Checked) camposFaltantes.Add("Género");
+                if (string.IsNullOrWhiteSpace(txtUsuario.Text)) camposFaltantes.Add("Username");
+                if (string.IsNullOrWhiteSpace(txtContraseña.Text)) camposFaltantes.Add("Password");
+
+                // Si hay campos faltantes mostrara mensaje 
+                if (camposFaltantes.Count > 0)
+                {
+                    string mensaje = "Debe completar los siguientes campos:\n- " + string.Join("\n- ", camposFaltantes);
+                    MessageBox.Show(mensaje, "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                //ingreso de datos a la clase
+                DatosGlobales.usua.Nombre = txtNombre.Text;
+                DatosGlobales.usua.Apellido = txtApellido.Text;
+                DatosGlobales.usua.Edad = int.Parse(txtEdad.Text);
+                DatosGlobales.usua.Estatura = double.Parse(txtEstatura.Text);
+                DatosGlobales.usua.Peso = double.Parse(txtPeso.Text);
+                DatosGlobales.usua.Username = txtUsuario.Text;
+                DatosGlobales.usua.Password = txtContraseña.Text;
+
+                EstadoFisico formEstadoActual = new EstadoFisico();
+                this.Hide();
+                formEstadoActual.Show();
             }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al ingresar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
 
-            //ingreso de datos a la clase
-            DatosGlobales.usua.Nombre = txtNombre.Text;
-            DatosGlobales.usua.Apellido = txtApellido.Text;
-            DatosGlobales.usua.Edad = int.Parse(txtEdad.Text);
-            DatosGlobales.usua.Estatura = double.Parse(txtEstatura.Text);
-            DatosGlobales.usua.Peso = double.Parse(txtPeso.Text);
-            DatosGlobales.usua.Username = txtUsuario.Text;
-            DatosGlobales.usua.Password = txtContraseña.Text;
-
-            EstadoFisico formEstadoActual = new EstadoFisico();
-			this.Hide();
-			formEstadoActual.Show();
+            
 
 		}
 

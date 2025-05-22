@@ -26,12 +26,13 @@ namespace Proyecto_PED.Vista
             formObjetivos.Show();        
         }
 
+
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             try
             {
                 CheckBox selectedCheckBox = sender as CheckBox;
-                if (selectedCheckBox == null) return;
+                if (selectedCheckBox == null ||!selectedCheckBox.Checked) return;
 
                 // Determina a qué grupo pertenece el CheckBox
                 if (groupBox_Estado.Controls.Contains(selectedCheckBox))
@@ -51,7 +52,8 @@ namespace Proyecto_PED.Vista
                     else if (checkBoxIntensa.Checked) DatosGlobales.usua.Nivel_Actividad = NivelActividad.Intensa;
                     else if (checkBoxMuyIntensa.Checked) DatosGlobales.usua.Nivel_Actividad = NivelActividad.Muy_intensa;
                 }
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -60,21 +62,11 @@ namespace Proyecto_PED.Vista
 
         private void DeselectOthers(CheckBox selectedCheckBox, GroupBox groupBox)
         {
-            // Verifica si ya hay al menos uno seleccionado antes de desmarcar otros
-            bool anyChecked = groupBox.Controls.OfType<CheckBox>().Any(cb => cb.Checked);
-
-            if (!anyChecked)
+            // Recorre todos los checkbox dentro de un groupbox
+            foreach (CheckBox cb in groupBox.Controls.OfType<CheckBox>())
             {
-                selectedCheckBox.Checked = true; // Evita que queden todos sin seleccionar
-            }
-            else
-            {
-                // Desmarca los demás CheckBox del grupo
-                foreach (CheckBox cb in groupBox.Controls.OfType<CheckBox>())
-                {
-                    if (cb != selectedCheckBox)
-                        cb.Checked = false;
-                }
+                // Solo deja marcado el checkbox que se seleccionó
+                cb.Checked = (cb == selectedCheckBox);
             }
         }
 

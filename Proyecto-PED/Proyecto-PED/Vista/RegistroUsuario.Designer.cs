@@ -45,11 +45,11 @@
             this.checkBox_F = new System.Windows.Forms.CheckBox();
             this.btnSiguiente = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnAtras = new System.Windows.Forms.Button();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.btnAtras = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,9 +94,9 @@
             this.label4.Location = new System.Drawing.Point(45, 188);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 24);
+            this.label4.Size = new System.Drawing.Size(125, 24);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Estatura";
+            this.label4.Text = "Estatura (cm)";
             // 
             // label5
             // 
@@ -105,9 +105,9 @@
             this.label5.Location = new System.Drawing.Point(52, 258);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(50, 24);
+            this.label5.Size = new System.Drawing.Size(90, 24);
             this.label5.TabIndex = 10;
-            this.label5.Text = "Peso";
+            this.label5.Text = "Peso (kg)";
             // 
             // label6
             // 
@@ -134,7 +134,7 @@
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(181, 57);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(351, 29);
             this.txtNombre.TabIndex = 13;
@@ -144,7 +144,7 @@
             // txtApellido
             // 
             this.txtApellido.Location = new System.Drawing.Point(181, 119);
-            this.txtApellido.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtApellido.Margin = new System.Windows.Forms.Padding(4);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(351, 29);
             this.txtApellido.TabIndex = 14;
@@ -153,7 +153,7 @@
             // txtEstatura
             // 
             this.txtEstatura.Location = new System.Drawing.Point(181, 190);
-            this.txtEstatura.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtEstatura.Margin = new System.Windows.Forms.Padding(4);
             this.txtEstatura.Name = "txtEstatura";
             this.txtEstatura.Size = new System.Drawing.Size(351, 29);
             this.txtEstatura.TabIndex = 15;
@@ -162,7 +162,7 @@
             // txtPeso
             // 
             this.txtPeso.Location = new System.Drawing.Point(181, 258);
-            this.txtPeso.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPeso.Margin = new System.Windows.Forms.Padding(4);
             this.txtPeso.Name = "txtPeso";
             this.txtPeso.Size = new System.Drawing.Size(351, 29);
             this.txtPeso.TabIndex = 16;
@@ -170,7 +170,7 @@
             // txtEdad
             // 
             this.txtEdad.Location = new System.Drawing.Point(181, 327);
-            this.txtEdad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtEdad.Margin = new System.Windows.Forms.Padding(4);
             this.txtEdad.Name = "txtEdad";
             this.txtEdad.Size = new System.Drawing.Size(351, 29);
             this.txtEdad.TabIndex = 17;
@@ -180,7 +180,7 @@
             // 
             this.checkBox_M.AutoSize = true;
             this.checkBox_M.Location = new System.Drawing.Point(203, 389);
-            this.checkBox_M.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox_M.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_M.Name = "checkBox_M";
             this.checkBox_M.Size = new System.Drawing.Size(49, 27);
             this.checkBox_M.TabIndex = 18;
@@ -192,7 +192,7 @@
             // 
             this.checkBox_F.AutoSize = true;
             this.checkBox_F.Location = new System.Drawing.Point(298, 389);
-            this.checkBox_F.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox_F.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_F.Name = "checkBox_F";
             this.checkBox_F.Size = new System.Drawing.Size(41, 27);
             this.checkBox_F.TabIndex = 19;
@@ -206,7 +206,7 @@
             this.btnSiguiente.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSiguiente.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.btnSiguiente.Location = new System.Drawing.Point(987, 690);
-            this.btnSiguiente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSiguiente.Margin = new System.Windows.Forms.Padding(4);
             this.btnSiguiente.Name = "btnSiguiente";
             this.btnSiguiente.Size = new System.Drawing.Size(259, 74);
             this.btnSiguiente.TabIndex = 20;
@@ -236,27 +236,13 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(35, 121);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(594, 561);
             this.groupBox1.TabIndex = 21;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Por favor complete los siguientes campos ";
-            // 
-            // btnAtras
-            // 
-            this.btnAtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(181)))), ((int)(((byte)(80)))));
-            this.btnAtras.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAtras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnAtras.Location = new System.Drawing.Point(52, 690);
-            this.btnAtras.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnAtras.Name = "btnAtras";
-            this.btnAtras.Size = new System.Drawing.Size(259, 74);
-            this.btnAtras.TabIndex = 22;
-            this.btnAtras.Text = "Atras";
-            this.btnAtras.UseVisualStyleBackColor = false;
-            this.btnAtras.Click += new System.EventHandler(this.btnAtras_Click);
             // 
             // txtContraseña
             // 
@@ -296,6 +282,20 @@
             this.label9.TabIndex = 20;
             this.label9.Text = "Usuario";
             // 
+            // btnAtras
+            // 
+            this.btnAtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(181)))), ((int)(((byte)(80)))));
+            this.btnAtras.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnAtras.Location = new System.Drawing.Point(52, 690);
+            this.btnAtras.Margin = new System.Windows.Forms.Padding(4);
+            this.btnAtras.Name = "btnAtras";
+            this.btnAtras.Size = new System.Drawing.Size(259, 74);
+            this.btnAtras.TabIndex = 22;
+            this.btnAtras.Text = "Atras";
+            this.btnAtras.UseVisualStyleBackColor = false;
+            this.btnAtras.Click += new System.EventHandler(this.btnAtras_Click);
+            // 
             // RegistroUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -309,7 +309,7 @@
             this.Controls.Add(this.btnSiguiente);
             this.Controls.Add(this.label1);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RegistroUsuario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form3";
