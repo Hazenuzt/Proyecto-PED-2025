@@ -21,10 +21,10 @@ namespace Proyecto_PED.Modelo.Entidades
         private string password;
         private double cantCalorias;
 
-        // para el imc (esto es una prueva)
+        // para el imc 
         public double imcCalcular()
         {
-            if (estatura <= 0) return 0;
+            if (estatura <= 0) return 0;//evitamos diviciones entre cero
             return peso / (estatura * estatura);
         }
 
