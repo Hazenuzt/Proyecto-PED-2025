@@ -24,7 +24,7 @@ namespace Proyecto_PED.Modelo.Entidades
         // para el imc 
         public double imcCalcular()
         {
-            if (estatura <= 0) return 0;//evitamos deviviones entre cero
+            if (estatura <= 0) return 0;//evitamos diviciones entre cero
             return peso / (estatura * estatura);
         }
 

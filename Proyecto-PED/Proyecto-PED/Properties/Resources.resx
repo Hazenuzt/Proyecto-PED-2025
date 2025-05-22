@@ -118,35 +118,32 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MasaMuscular-Normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasaMuscular-Normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MasaMuscular-Ganada" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MasaMuscular-Ganada.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Hombre_con_peso" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Hombre_con_peso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Saludo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Saludo.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="gift" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\gift.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MasaMuscular-Ganada" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MasaMuscular-Ganada.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Fondo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Fondo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MujerFit_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MujerFit_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Saludo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Saludo.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MujerFit_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MujerFit_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Hombre_en_forma" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Hombre_en_forma.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Hombre_con_peso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Hombre_con_peso.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fondo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fondo2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MujerFit_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MujerFit_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Sin_Definir" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sin_Definir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,7 +151,13 @@
   <data name="MasaMuscular_Definida" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MasaMuscular_Definida.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Fondo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Fondo2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="MujerFit_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MujerFit_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MasaMuscular-Normal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MasaMuscular-Normal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="carlitos" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\carlitos.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
