@@ -27,50 +27,40 @@ namespace Proyecto_PED.Modelo.BD
 
             using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
-                try
+                // Abre la conexión explícitamente si ConexionBD no lo hace automáticamente.
+                // Si tu metodo ObtenerConexion ya devuelve una conexión abierta, no es necesario.
+                // conn.Open(); 
+
+                string query = "SELECT * FROM Alimento";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    // Asegurarse que la conexión esté abierta
-                    if (conn.State != System.Data.ConnectionState.Open)
-                        conn.Open();
-
-                    string query = @"SELECT ID_Alimento, NombreAlimento, CaloriasPorPorcion, 
-                ProteinasPorPorcion, CarbohidratosPorPorcion, GrasasPorPorcion,
-                UnidadMedidaBase, TamañoPorcionEstandarGramos, TipoAlimento, RolAlimento
-                FROM Alimento"; // Consulta SQL
-
-                    SqlCommand cmd = new SqlCommand(query, conn);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    Alimento alimento = new Alimento
                     {
-                        while (reader.Read())
-                        {
-                            Alimento alimento = new Alimento
-                            {
-                                ID_Alimento = (int)reader["ID_Alimento"],
-                                NombreAlimento = reader["NombreAlimento"].ToString(),
-                                CaloriasPorPorcion = Convert.ToDouble(reader["CaloriasPorPorcion"]),
-                                ProteinasPorPorcion = Convert.ToDouble(reader["ProteinasPorPorcion"]),
-                                CarbohidratosPorPorcion = Convert.ToDouble(reader["CarbohidratosPorPorcion"]),
-                                GrasasPorPorcion = Convert.ToDouble(reader["GrasasPorPorcion"]),
-                                UnidadMedidaBase = reader["UnidadMedidaBase"].ToString(),
-                                TamañoPorcionEstandarGramos = reader["TamañoPorcionEstandarGramos"] != DBNull.Value
-                                    ? Convert.ToDouble(reader["TamañoPorcionEstandarGramos"])
-                                    : (double?)null,
-                                TipoAlimento = reader["TipoAlimento"].ToString(),
-                                RolAlimento = reader["RolAlimento"] != DBNull.Value
-                                 ? reader["RolAlimento"].ToString() : "Extras"
-                            };
+                        ID_Alimento = (int)reader["ID_Alimento"],
+                        NombreAlimento = reader["NombreAlimento"].ToString(),
+                        CaloriasPorPorcion = Convert.ToDouble(reader["CaloriasPorPorcion"]),
+                        ProteinasPorPorcion = Convert.ToDouble(reader["ProteinasPorPorcion"]),
+                        CarbohidratosPorPorcion = Convert.ToDouble(reader["CarbohidratosPorPorcion"]),
+                        GrasasPorPorcion = Convert.ToDouble(reader["GrasasPorPorcion"]),
+                        UnidadMedidaBase = reader["UnidadMedidaBase"].ToString(),
+                        TamañoPorcionEstandarGramos = reader["TamañoPorcionEstandarGramos"] != DBNull.Value
+                                                            ? Convert.ToDouble(reader["TamañoPorcionEstandarGramos"])
+                                                            : (double?)null,
+                        TipoAlimento = reader["TipoAlimento"].ToString(),
+                        // ¡Asegúrate de cargar RolAlimento!
+                        RolAlimento = reader["RolAlimento"].ToString()
+                        // MomentosDiaApropiados: Si no se persiste en la DB, se inicializará vacío
+                        // o necesitarías otra lógica para cargarlo si lo tienes en la DB de alguna forma.
+                        // Por ejemplo, si lo guardaras como un string separado por comas:
+                        // MomentosDiaApropiados = reader["MomentosDiaApropiados"].ToString().Split(',').ToList() 
+                    };
 
-                            alimentos.Add(alimento);
-                        }
-                    }
+                    alimentos.Add(alimento);
                 }
-                catch (Exception ex)
-                {
-                    // Opcional: loguear la excepción o manejarla apropiadamente
-                    System.Diagnostics.Debug.WriteLine($"Error al recuperar alimentos: {ex.Message}");
-                    throw; // Re-lanzar para mantener el comportamiento original
-                }
+                reader.Close();
             }
 
             return alimentos;

@@ -25,66 +25,52 @@ namespace Proyecto_PED.Modelo.BD
         {
             List<Receta> recetas = new List<Receta>();
 
-            try
+            using (SqlConnection conn = new ConexionBD().ObtenerConexion())
             {
-                using (SqlConnection conn = new ConexionBD().ObtenerConexion())
+                // Abre la conexión explícitamente si ConexionBD no lo hace automáticamente.
+                // conn.Open();
+
+                // Recuperamos todas las recetas
+                string queryRecetas = "SELECT ID_Receta, NombreReceta, CaloriasTotales FROM Receta"; // Selecciona solo las columnas necesarias
+                SqlCommand cmdRecetas = new SqlCommand(queryRecetas, conn);
+                SqlDataReader readerRecetas = cmdRecetas.ExecuteReader();
+
+                while (readerRecetas.Read())
                 {
-                    // Asegurarse que la conexión esté abierta
-                    if (conn.State != System.Data.ConnectionState.Open)
-                        conn.Open();
+                    int idReceta = (int)readerRecetas["ID_Receta"];
+                    string nombre = readerRecetas["NombreReceta"].ToString();
+                    double calorias = Convert.ToDouble(readerRecetas["CaloriasTotales"]);
 
-                    // Recuperamos todas las recetas
-                    string queryRecetas = @"SELECT ID_Receta, NombreReceta, CaloriasTotales FROM Receta";
-                    SqlCommand cmdRecetas = new SqlCommand(queryRecetas, conn);
-
-                    using (SqlDataReader readerRecetas = cmdRecetas.ExecuteReader())
+                    Receta receta = new Receta
                     {
-                        while (readerRecetas.Read())
-                        {
-                            int idReceta = (int)readerRecetas["ID_Receta"];
-                            string nombre = readerRecetas["NombreReceta"].ToString();
-                            double calorias = Convert.ToDouble(readerRecetas["CaloriasTotales"]);
+                        ID_Receta = idReceta,
+                        NombreReceta = nombre,
+                        CaloriasTotales = calorias,
+                        IDsIngredientes = new List<int>() // Se llenará después
+                    };
+                    recetas.Add(receta);
+                }
+                readerRecetas.Close(); // Cierra el lector antes de ejecutar otra consulta
 
-                            // Creamos el objeto receta sin ingredientes todavía
-                            Receta receta = new Receta
-                            {
-                                ID_Receta = idReceta,
-                                NombreReceta = nombre,
-                                CaloriasTotales = calorias,
-                                IDsIngredientes = new List<int>() // Se llenará después
-                            };
+                // Ahora, por cada receta, recuperamos sus ingredientes
+                foreach (var receta in recetas)
+                {
+                    string queryIngredientes = @"SELECT ID_Alimento FROM Receta_Ingrediente
+                                         WHERE ID_Receta = @ID_Receta";
 
-                            recetas.Add(receta);
-                        }
-                    } // El reader se cierra automáticamente al salir del using
+                    SqlCommand cmdIngredientes = new SqlCommand(queryIngredientes, conn);
+                    cmdIngredientes.Parameters.AddWithValue("@ID_Receta", receta.ID_Receta);
 
-                    // Ahora, por cada receta, recuperamos sus ingredientes
-                    foreach (var receta in recetas)
+                    SqlDataReader readerIngredientes = cmdIngredientes.ExecuteReader();
+                    while (readerIngredientes.Read())
                     {
-                        string queryIngredientes = @"SELECT ID_Alimento FROM Receta_Ingrediente
-                                                 WHERE ID_Receta = @ID_Receta";
-
-                        SqlCommand cmdIngredientes = new SqlCommand(queryIngredientes, conn);
-                        cmdIngredientes.Parameters.AddWithValue("@ID_Receta", receta.ID_Receta);
-
-                        using (SqlDataReader readerIngredientes = cmdIngredientes.ExecuteReader())
-                        {
-                            while (readerIngredientes.Read())
-                            {
-                                int idAlimento= (int)readerIngredientes["ID_Alimento"];
-                                receta.IDsIngredientes.Add(idAlimento);
-                            }
-                        } // El reader se cierra automáticamente al salir del using
+                        // ¡Aquí estaba el error! Debe ser ID_Alimento, no ID_Ingrediente
+                        int idAlimento = (int)readerIngredientes["ID_Alimento"];
+                        receta.IDsIngredientes.Add(idAlimento);
                     }
+                    readerIngredientes.Close();
                 }
             }
-            catch (Exception ex)
-            {
-                // Opcional: loguear la excepción o manejarla apropiadamente
-                System.Diagnostics.Debug.WriteLine($"Error al recuperar recetas: {ex.Message}");
-                throw; // Re-lanzar para mantener el comportamiento original
-            }
-
             return recetas;
         }
 
